@@ -28,13 +28,13 @@ function getURLs() {
         url.CatalogDisplayed = "api/catalog/displayed/get/Product.json";
         break;
       case "Shopping Cart":
-        case "Shopping%20Cart":
-        url.Cart = "api/cart/get/Shopping Cart.jso";
-        url.CatalogCashed = "api/catalog/elements/get/Shopping Cart.jso";
-        url.CatalogDisplayed = "api/catalog/displayed/get/Shopping Cart.jso";
+      case "Shopping%20Cart":
+        url.Cart = "api/cart/get/Shopping Cart.json";
+        url.CatalogCashed = "api/catalog/elements/get/Shopping Cart.json";
+        url.CatalogDisplayed = "api/catalog/displayed/get/Shopping Cart.json";
         break;
       case "Single Page":
-        case "Single%20Page":
+      case "Single%20Page":
         url.Cart = "api/cart/get/Single Page.json";
         url.CatalogCashed = "api/catalog/elements/get/Single Page.json";
         url.CatalogDisplayed = "api/catalog/displayed/get/Single Page.json";
@@ -155,6 +155,12 @@ const store = createStore({
     },
     CartAdd(state, item) {
       state.Cart.value.push(item);
+    },
+    CartSet(state, payload) {
+      state.Cart.value[payload.index].quantity = payload.quantity;
+    },
+    CartClean(state) {
+      state.Cart.value = [];
     }
   },
   actions: {
@@ -198,9 +204,9 @@ const store = createStore({
       return new Promise((resolve, reject) => {
         let index = context.state.Cart.value.findIndex(obj => { return (obj.id === item.id && obj.type === item.type) });
         if (index !== -1) {
-            context.commit('CartInc', index);
+          context.commit('CartInc', index);
           resolve();
-        }else{
+        } else {
           reject();
         }
       })
@@ -215,7 +221,7 @@ const store = createStore({
             context.commit('CartDel', index);
           }
           resolve();
-        }else{
+        } else {
           reject();
         }
       })
@@ -226,7 +232,7 @@ const store = createStore({
         if (index !== -1) {
           context.commit('CartDel', index);
           resolve();
-        }else{
+        } else {
           reject();
         }
       })
@@ -242,6 +248,21 @@ const store = createStore({
           resolve();
         })
       })
+    },
+    CartSet(context, item) {
+      return new Promise((resolve, reject) => {
+        let index = context.state.Cart.value.findIndex(obj => { return (obj.id === item.id && obj.type === item.type) });
+        if (index !== -1) {
+          if (item.quantity > 0) {
+            context.commit('CartSet', {index:index, quantity:item.quantity});
+          } else {
+            context.commit('CartDel', index);
+          }
+          resolve();
+        } else {
+          reject();
+        }
+      })
     }
   },
 });
@@ -254,32 +275,6 @@ const RootComponent = {
       }
       arr[1] = arr[1].substring(0, fract).padStart(fract, "0");
       return arr.join(".");
-    },
-    CartEventDispatcher(event) {
-      let target = event.path.find(obj => { return (obj.name === 'btn-inc-item' || obj.name === 'btn-remove-item' || obj.name === 'btn-dec-item') });
-      if (target) {
-        let item;
-        if ((item = this.GetCartData(target)) !== null) {
-          if (target.name === 'btn-inc-item') {
-            this.CartInc(item);
-          } else if (target.name === 'btn-remove-item') {
-            this.CartDel(item);
-          } else if (target.name === 'btn-dec-item') {
-            this.CartDec(item);
-          }
-        }
-      }
-    },
-    CatalogEventDispatcher(event) {
-      let target = event.path.find(obj => { return (obj.name === 'btn-add-item') });
-      if (target) {
-        let item;
-        if ((item = this.GetCatalogData(target)) !== null) {
-          if (target.name === 'btn-add-item') {
-            this.CartAdd(item);
-          }
-        }
-      }
     },
     GetCartData(_obj) {
       let item = _obj.closest('[data-cart-item][data-cart-item-t]');
@@ -295,17 +290,23 @@ const RootComponent = {
       }
       return undefined;
     },
-    CartInc(item) {
-      return this.$store.dispatch('CartInc', item);
+    CartInc(id,type) {
+      return this.$store.dispatch('CartInc', { id: id, type: type });
     },
-    CartDec(item) {
-      return this.$store.dispatch('CartDec', item);
+    CartDec(id,type) {
+      return this.$store.dispatch('CartDec', { id: id, type: type });
     },
-    CartAdd(item) {
-      return this.$store.dispatch('CartAdd', item);
+    CartAdd(id,type) {
+      return this.$store.dispatch('CartAdd', { id: id, type: type });
     },
-    CartDel(item) {
-      return this.$store.dispatch('CartDel', item);
+    CartDel(id,type) {
+      return this.$store.dispatch('CartDel', { id: id, type: type });
+    },
+    CartSet(id,type,event) {
+      return this.$store.dispatch('CartSet', { id: id, type: type, quantity: parseInt(event.target.value) });
+    },
+    CartClean() {
+      return this.$store.commit('CartClean');
     }
   },
   computed: {

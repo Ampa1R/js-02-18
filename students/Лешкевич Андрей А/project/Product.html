@@ -28,7 +28,7 @@
         crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/progressive-image.js/dist/progressive-image.css">
     <script src="https://cdn.jsdelivr.net/npm/progressive-image.js/dist/progressive-image.js"></script>
-    <script type="text/javascript" src="js/helpers.js" defer></script>
+    <!--<script type="text/javascript" src="js/helpers.js" defer></script>
     <script type="text/javascript" src="js/cart.js" defer></script>
     <script type="text/javascript" src="js/catalog.js" defer></script>
     <script type="text/javascript" src="js/init.js" defer></script>
@@ -38,10 +38,13 @@
             urlCart = "api/cart/get/Product.json",
             urlCatalog = "api/catalog/elements/get/Product.json",
             urlCatalogDisplayed = "api/catalog/displayed/get/Product.json";
-    </script>
+    </script>-->
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://unpkg.com/vuex@next"></script>
+    <script type="text/javascript" src="js/vue/init.js" defer></script>
 </head>
 
-<body>
+<body><div id="app-brand-shop">
     <header class="header">
         <section class="header-top-wrap wrap">
             <section class="logo"><a href="index.html"><img src="img/logo.png"
@@ -107,38 +110,46 @@
                 <div id="cartSmall" class="btn-cart__wrap">
                     <a href="Shopping%20Cart.html" class="btn-cart"><img src="img/cart_black.png" alt="">
                     </a>
-                    <div class="btn-cart__count">0</div>
+                    <div class="btn-cart__count" v-show="CartCount.count > 0">{{ CartCount.count }}</div>
                     <div class="btn-cart__ddc">
                         <ul class="btn-cart__ddc-list">
-                            <!-- Replaced by JavaScript
-                            <li class="btn-cart__ddc-item">
-                                <div class="col"><a href="#"><img src="img/cart_item_01.png" alt=""></a></div>
+                            <li v-for="item in CartDisplayed" v-bind:data-cart-item="item.id"
+                                v-bind:data-cart-item-t="item.type" class="btn-cart__ddc-item">
+                                <div class="col"><a href="#"><img v-bind:src="item.img" alt=""></a></div>
                                 <div class="col">
-                                    <p>Rebox Zane</p>
-                                    <p><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></p>
+                                    <p>{{ item.name }}</p>
+                                    <p><i v-for="n in parseInt(Math.floor(item.star))" :key="n"
+                                            class="fa fa-star"></i>
+                                        <i v-if="(0 < Math.floor(item.star * 10 - Math.floor(item.star) * 10))"
+                                            class="fa fa-star-half-o" aria-hidden="true"></i>
+                                    </p>
                                     <div>
-                                        <p class="price-count">1 <span class="x-txt">x</span> $250</p>
-                                        <p class="sub-total clear-fix"> = $250</p>
+                                        <p class="price-count">{{ item.quantity }} <span class="x-txt">x</span> ${{
+                                            float2str(item.price) }}</p>
+                                        <p class="sub-total clear-fix"> = ${{ float2str(item.price * item.quantity)
+                                            }}</p>
                                     </div>
                                 </div>
-                                <div class="col"><a href="#"><i class="fas fa-plus-circle"></i></a><a href="#"><i class="fa fa-times-circle"></i></a><a href="#"><i class="fas fa-minus-circle"></i></a></div>
-                            </li>
-                            <li class="btn-cart__ddc-item">
-                                <div class="col"><a href="#"><img src="img/cart_item_02.png" alt=""></a></div>
                                 <div class="col">
-                                    <p>Rebox Zane</p>
-                                    <p><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></p>
-                                    <div>
-                                        <p class="price-count">1 <span class="x-txt">x</span> $250</p>
-                                        <p class="sub-total clear-fix"> = $250</p>
-                                    </div>
+                                    <a @click.prevent="CartInc(item.id,item.type)"
+                                        v-bind:href="'cart/inc/' + item.id + '/' + item.type" name="btn-inc-item">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </a>
+                                    <a @click.prevent="CartDel(item.id,item.type)"
+                                        v-bind:href="'cart/del/' + item.id + '/' + item.type" name="btn-del-item">
+                                        <i class="fa fa-times-circle"></i>
+                                    </a>
+                                    <a @click.prevent="CartDec(item.id,item.type)"
+                                        v-bind:href="'cart/dec/' + item.id + '/' + item.type" name="btn-dec-item">
+                                        <i class="fas fa-minus-circle"></i>
+                                    </a>
                                 </div>
-                                <div class="col"><a href="#"><i class="fas fa-plus-circle"></i></a><a href="#"><i class="fa fa-times-circle"></i></a><a href="#"><i class="fas fa-minus-circle"></i></a></div>
                             </li>
-                            -->
                         </ul>
                         <div class="btn-cart__ddc-total">
-                            <div class="total-grand"><span>TOTAL</span><span class="total-grand-summ">$0.00</span></div>
+                            <div class="total-grand"><span>TOTAL</span><span class="total-grand-summ">${{
+                                    float2str(CartCount.grand_total) }}</span>
+                            </div>
                             <div class="btn-sqr_bw"><a href="Checkout.html" class="btn-sqr_bw__link"><span
                                         class="btn-sqr_bw__text">Checkout</span></a>
                             </div>
@@ -454,143 +465,30 @@
                             </div>
                         </div>
                         <ul id="catalog" class="products-grid_list">
-                            <!-- Replaced by JavaScript
-                            <li class="products-grid_item">
+                            <li v-for="item in $store.getters.CatalogDisplayed" v-bind:data-catalog-item="item.id"
+                                v-bind:data-catalog-item-t="item.type" class="products-grid_item">
                                 <div class="top-block">
-                                    <div class="visible"><img src="img/catalog_item_09.png" alt=""></div>
+                                    <!--<img v-bind:src="item.img" alt="">-->
+                                    <div class="visible progressive replace" v-bind:data-href="item.img">
+                                        <img src="img/tiny.a1.07.jpg" class="preview" alt="image" />
+                                    </div>
                                     <div class="hovered">
-                                        <div class="btn-sqr_adcw"><a href="Product.html" class="btn-sqr_adcw__link clear-fix">
-                                                <div class="btn-sqr_adcw__wrap"><img src="img/cart_white.png" alt="" class="btn-sqr_adcw__icon"><span class="btn-sqr_adcw__text">Add to Cart</span></div>
+                                        <div class="btn-sqr_adcw">
+                                            <a @click.prevent="CartAdd(item.id,item.type)"
+                                                v-bind:href="'cart/add/' + item.id + '/' + item.type"
+                                                class="btn-sqr_adcw__link clear-fix" name="btn-add-item">
+                                                <div class="btn-sqr_adcw__wrap"><img src="img/cart_white.png" alt=""
+                                                        class="btn-sqr_adcw__icon"><span class="btn-sqr_adcw__text">Add to
+                                                        Cart</span></div>
                                             </a>
                                         </div>
                                     </div>
                                 </div>
-                                <a href="Product.html" class="products-grid_link">
-                                    <h3>Mango People T-shirt</h3>
-                                    <p>$52.00</p>
+                                <a href="#" class="products-grid_link">
+                                    <h3>{{ item.name }}</h3>
+                                    <p>${{ float2str(item.price) }}</p>
                                 </a>
                             </li>
-                            <li class="products-grid_item">
-                                <div class="top-block">
-                                    <div class="visible"><img src="img/catalog_item_10.png" alt=""></div>
-                                    <div class="hovered">
-                                        <div class="btn-sqr_adcw"><a href="Product.html" class="btn-sqr_adcw__link clear-fix">
-                                                <div class="btn-sqr_adcw__wrap"><img src="img/cart_white.png" alt="" class="btn-sqr_adcw__icon"><span class="btn-sqr_adcw__text">Add to Cart</span></div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="Product.html" class="products-grid_link">
-                                    <h3>Mango People T-shirt</h3>
-                                    <p>$52.00</p>
-                                </a>
-                            </li>
-                            <li class="products-grid_item">
-                                <div class="top-block">
-                                    <div class="visible"><img src="img/catalog_item_03.png" alt=""></div>
-                                    <div class="hovered">
-                                        <div class="btn-sqr_adcw"><a href="Product.html" class="btn-sqr_adcw__link clear-fix">
-                                                <div class="btn-sqr_adcw__wrap"><img src="img/cart_white.png" alt="" class="btn-sqr_adcw__icon"><span class="btn-sqr_adcw__text">Add to Cart</span></div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="Product.html" class="products-grid_link">
-                                    <h3>Mango People T-shirt</h3>
-                                    <p>$52.00</p>
-                                </a>
-                            </li>
-                            <li class="products-grid_item">
-                                <div class="top-block">
-                                    <div class="visible"><img src="img/catalog_item_11.png" alt=""></div>
-                                    <div class="hovered">
-                                        <div class="btn-sqr_adcw"><a href="Product.html" class="btn-sqr_adcw__link clear-fix">
-                                                <div class="btn-sqr_adcw__wrap"><img src="img/cart_white.png" alt="" class="btn-sqr_adcw__icon"><span class="btn-sqr_adcw__text">Add to Cart</span></div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="Product.html" class="products-grid_link">
-                                    <h3>Mango People T-shirt</h3>
-                                    <p>$52.00</p>
-                                </a>
-                            </li>
-                            <li class="products-grid_item">
-                                <div class="top-block">
-                                    <div class="visible"><img src="img/catalog_item_08.png" alt=""></div>
-                                    <div class="hovered">
-                                        <div class="btn-sqr_adcw"><a href="Product.html" class="btn-sqr_adcw__link clear-fix">
-                                                <div class="btn-sqr_adcw__wrap"><img src="img/cart_white.png" alt="" class="btn-sqr_adcw__icon"><span class="btn-sqr_adcw__text">Add to Cart</span></div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="Product.html" class="products-grid_link">
-                                    <h3>Mango People T-shirt</h3>
-                                    <p>$52.00</p>
-                                </a>
-                            </li>
-                            <li class="products-grid_item">
-                                <div class="top-block">
-                                    <div class="visible"><img src="img/catalog_item_12.png" alt=""></div>
-                                    <div class="hovered">
-                                        <div class="btn-sqr_adcw"><a href="Product.html" class="btn-sqr_adcw__link clear-fix">
-                                                <div class="btn-sqr_adcw__wrap"><img src="img/cart_white.png" alt="" class="btn-sqr_adcw__icon"><span class="btn-sqr_adcw__text">Add to Cart</span></div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="Product.html" class="products-grid_link">
-                                    <h3>Mango People T-shirt</h3>
-                                    <p>$52.00</p>
-                                </a>
-                            </li>
-                            <li class="products-grid_item">
-                                <div class="top-block">
-                                    <div class="visible"><img src="img/catalog_item_06.png" alt=""></div>
-                                    <div class="hovered">
-                                        <div class="btn-sqr_adcw"><a href="Product.html" class="btn-sqr_adcw__link clear-fix">
-                                                <div class="btn-sqr_adcw__wrap"><img src="img/cart_white.png" alt="" class="btn-sqr_adcw__icon"><span class="btn-sqr_adcw__text">Add to Cart</span></div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="Product.html" class="products-grid_link">
-                                    <h3>Mango People T-shirt</h3>
-                                    <p>$52.00</p>
-                                </a>
-                            </li>
-                            <li class="products-grid_item">
-                                <div class="top-block">
-                                    <div class="visible"><img src="img/catalog_item_13.png" alt=""></div>
-                                    <div class="hovered">
-                                        <div class="btn-sqr_adcw"><a href="Product.html" class="btn-sqr_adcw__link clear-fix">
-                                                <div class="btn-sqr_adcw__wrap"><img src="img/cart_white.png" alt="" class="btn-sqr_adcw__icon"><span class="btn-sqr_adcw__text">Add to Cart</span></div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="Product.html" class="products-grid_link">
-                                    <h3>Mango People T-shirt</h3>
-                                    <p>$52.00</p>
-                                </a>
-                            </li>
-                            <li class="products-grid_item">
-                                <div class="top-block">
-                                    <div class="visible"><img src="img/catalog_item_14.png" alt=""></div>
-                                    <div class="hovered">
-                                        <div class="btn-sqr_adcw"><a href="Product.html" class="btn-sqr_adcw__link clear-fix">
-                                                <div class="btn-sqr_adcw__wrap"><img src="img/cart_white.png" alt="" class="btn-sqr_adcw__icon"><span class="btn-sqr_adcw__text">Add to Cart</span></div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="Product.html" class="products-grid_link">
-                                    <h3>Mango People T-shirt</h3>
-                                    <p>$52.00</p>
-                                </a>
-                            </li>
-                            -->
                         </ul>
                         <div class="d-pager">
                             <div class="col">
@@ -749,7 +647,7 @@
                 </div>
             </div>
         </section>
-    </footer>
+    </footer></div>
 </body>
 
 </html>
