@@ -104,6 +104,5 @@ dist
 
 # TernJS port file
 .tern-port
-
-.vscode/
-/students/Лешкевич Андрей А/project-vue
+/students/Лешкевич Андрей А/project-vue/dist
+/students/Лешкевич Андрей А/project-vue/node_modules
