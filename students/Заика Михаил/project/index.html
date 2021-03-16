@@ -2,26 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>eShop</title>
-    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js" defer></script>
     <script src="script.js" defer></script>
+    <!-- <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&display=swap&subset=cyrillic" rel="stylesheet"> -->
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <header>
-        <div class="logo">eShop</div>
-        <button class="card-button">Корзина</button>
-    </header>
+    <div id="app">
+        <header>
+            <span class="logo">eShop</span>
+            <input type="text" class="search" v-model="searchValue" />
+            <button class="cart-button" v-on:click.prevent="basketGoodsOpen">Корзина ({{ quantity }})</button>
+        </header>
 
-    <div class="basket-blok">
-        <div class="basket"></div>
-        <div class="basket"><p id="basket-totall"></p></div>
-        <div class="cart-button-counter"><p id="basket_count"></p></div>
+        <div class="basket-blok" v-if="isVisibleCart">
+            <div class="basket">
+                <div class="basket-item" v-for="item in basketGoods">
+                    <p style="width: 250px;"><b>{{ item.product_name }}</b></p>
+                    <p style="width: 100px;">{{ item.price }}</p>
+                    <p style="width: 50px;">{{ item.quantity }}</p>
+                    <button class="button-remove" type="button"><p>x</p></button>
+                </div>
+            </div>
+            <div class="basket"><p id="basket-totall"></p>
+                <div class="basket-item">
+                    <p v-if="quantity > 0"> В корзине {{ quantity }} шт. на сумму {{ total }} </p>
+                    <p v-else>Корзина пуста.</p>
+                </div>
+            </div>
+        </div>
+    
+        <main>
+            <section class="goods">
+                <div class="item" v-for="item in filteredGoods">
+                    <h2>{{ item.product_name }}</h2>
+                    <p>{{ item.price }}</p>
+                    <button name="add-to-basket" v-on:click.prevent="addItem(item)">Добавить в корзину</button>
+                </div>
+            </section>
+        </main>
     </div>
-
-    <main>
-        <div class="goods"></div>
-    </main>
 </body>
 </html>
