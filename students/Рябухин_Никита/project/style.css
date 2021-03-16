@@ -3312,7 +3312,7 @@ main {
   margin: 0 auto;
 }
 
-.flex, .logo, .middle, .header .middle__cats, .header .middle__selected, .header__right, .cart-togle__item, .cart-togle__atr, .cart-togle__total-prise, .menu__list, .top-banners .container, .block, .block__item-hover a, .product__bottom, .nav-page__list, .two-col .container, .range__value, .product__filter, .sort-block__attribute, .nav-aside__title, .bottom-promo .container, .promo, .promo__item, .top-footer .container, .top-footer .reviews__slide, .foot .container, .foot .foot-bot .container, .social, .top-page .container, .shop-table__bottom, .cart-bottom .container, .single .specifications, .single .parameters, a .single__button, .checkout__block, .checkout .bottom {
+.flex, .logo, .middle, .header .middle__cats, .header .middle__selected, .header__right, .cart-togle__item, .cart-togle__atr, .cart-togle__total-prise, .menu__list, .top-banners .container, .block, .block__item-hover div, .product__bottom, .nav-page__list, .two-col .container, .range__value, .product__filter, .sort-block__attribute, .nav-aside__title, .bottom-promo .container, .promo, .promo__item, .top-footer .container, .top-footer .reviews__slide, .foot .container, .foot .foot-bot .container, .social, .top-page .container, .shop-table__bottom, .cart-bottom .container, .single .specifications, .single .parameters, a .single__button, .checkout__block, .checkout .bottom {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -3768,10 +3768,13 @@ main {
 
 .block img {
   width: 100%;
+  display: block;
+  text-align: center;
 }
 
 .block__img {
   position: relative;
+  margin-top: 50px;
 }
 
 .block__title {
@@ -3798,10 +3801,10 @@ main {
   height: 100%;
   text-align: center;
   background-color: rgba(58, 56, 56, 0.83);
-  display: none;
+  display: block;
 }
 
-.block__item-hover a {
+.block__item-hover div {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -3816,13 +3819,15 @@ main {
   -webkit-transition-duration: 0.3s;
        -o-transition-duration: 0.3s;
           transition-duration: 0.3s;
-}
-
-.block__item-hover a:hover {
+  cursor: pointer;
   background: #000;
 }
 
-.block__item-hover a span {
+.block__item-hover div:hover {
+  background: #333;
+}
+
+.block__item-hover div span {
   margin-right: 13px;
 }
 
