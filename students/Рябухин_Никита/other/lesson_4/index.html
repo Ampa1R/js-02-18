@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #old-text,
+        #new-text {
+            width: 600px;
+            margin: 30px;
+            font-size: 16px;
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 20px;
+            color: #333;
+        }
+
+        form {
+            margin: 30px;
+            padding: 30px 20px;
+            background: #eee;
+            border: 1px solid #333;
+            width: 500px;
+        }
+        input {
+            padding: 5px 10px;
+            width: calc(100% - 20px);
+        }
+        .input_error {
+            border: 1px solid red;
+        }
+        textarea {
+            padding: 5px 10px;
+            width: calc(100% - 20px);
+        }
+        button {
+            width: 100%;
+            padding: 10px 0;
+            background: #000;
+            color: #fff;
+            text-align: center;
+            border: none
+        }
+    </style>
+</head>
+<body>
+
+    <div id="old-text">Lorem 'ipsum' dolor sit amet, consectetur adipiscin'g elit. Fusce vel tristique ni'si. 'Curabitur tempor' odio ut enim tinc'idunt, eget interdum dui auctor. Donec placerat feugiat finibus. Suspendisse ornare pulvinar suscipit. Donec varius blandit metus eu hendrerit. Donec sit amet nunc magna. Nulla vitae bibendum leo. Nam lobortis turpis mauris, ut maximus tortor ultrices vitae. Aenean sodales nunc diam, non tristique odio sagittis at. Curabitur mollis lectus sed sodales rutrum. Aenea'n sagittis leo non mi gravida, 'nec volutpat ex pretium'. Ut porta eget mi et eleifend. Proin nec rutrum dolor.</div>
+
+    <div id="new-text"></div>
+
+    <form name="regform" onsubmit="return formValidation(event)">
+        <h2 id="form-box__area__headline"></h2>
+            <p >Имя: 
+                <input type="text" size=65 name="name">
+            </p>
+                <span class="error-text form-box__area"></span>	 
+            <p>E-mail: 
+                <input type="text" size=65 name="email">
+            </p>
+                <span class="error-text form-box__area"></span>	
+            <p>Телефон: 
+                <input type="text" size=65 name="telephone" placeholder="+7(000)000-0000">
+            </p>
+                <span class="error-text form-box__area"></span>	
+            <p>Комментарий: 
+                <textarea cols="55" name="comment"></textarea>
+            </p> 
+            <p>
+                <button type="submit" name="submitButton">Отправить</button> 
+            </p>		 
+        </form> 
+
+    <script>
+        const str = document.getElementById('old-text').textContent;
+        const nStr = str.replace(/\B'|'\B/g, '"');
+        document.getElementById('new-text').innerHTML = nStr;
+
+        // Валидация формы
+
+        var form = document.forms.regform;
+        var spanErrorText = document.getElementsByClassName('error-text');
+        var inputArea = document.getElementsByClassName('form-box__area');
+
+        var clearErrorText = () => {
+            for (let n = 0; n < spanErrorText.length; n++) {
+                spanErrorText[n].innerText = ' ';
+            }
+        };
+
+        var clearInputArea = () => {
+            for (let n = 0; n < inputArea.length; n++) {
+                let classList = inputArea[n].classList;
+                console.log(classList);
+
+                if (classList.contains('input_error') === true) {
+                    classList.remove("input_error");
+                    classList.remove("p_error");
+                }
+            }
+        };
+
+        var formValidation = function(e) {
+            e.preventDefault();
+            console.log('Run validation');
+
+            clearErrorText();
+            clearInputArea();
+
+            let name = form.elements.name;
+            let mail = form.elements.email;
+            let telephone = form.elements.telephone; 
+            
+            let result = true;
+
+            if (nameValidation(name) == false) {
+                
+                result = false;
+            }
+
+            if (mailValidation(mail) == false) {
+                result = false;
+            }
+
+            if (telephoneValidation(telephone) == false) {
+                result = false;
+            }
+
+            if (result == false) {
+                document.getElementById('form-box__area__headline').innerText = "Данные не приняты!"
+            }
+            if (result == true) {
+                document.getElementById('form-box__area__headline').innerText = "Спасибо! Ваши данные приняты!"
+            }
+            
+            return result;
+        };
+
+        var nameValidation = (name) => {
+            console.log('funcNameValid');
+            
+            let regexp = /^[A-Za-zА-Яа-я ]+$/;
+
+            if (name.value == '') {
+                spanErrorText[0].innerText = 'Заполните поле!';
+                return false;
+            }
+            if (name.value.match(regexp)) { 
+                return true;
+            } else {
+                spanErrorText[0].innerText = 'Имя может содержать только буквы и пробел';
+                name.classList.add("input_error");
+                name.classList.add("p_error");
+                name.focus();
+                return false;
+            }
+        };
+
+        var mailValidation = (mail) => {
+            console.log('funcMailValid');
+            
+            let regexp = /^[-._a-z0-9]+@(?:[a-z0-9][-a-z0-9]+\.)+[a-z]{2,6}$/;
+            
+            if (mail.value == '') {
+                spanErrorText[1].innerText = 'Заполните поле!';
+                return false;
+            }
+            if (mail.value.match(regexp)) { 
+                return true;
+            } else {
+            
+                spanErrorText[1].innerText = 'Адрес эл. почты может содежрать латинские буквы (@, . - _)';
+                mail.classList.add("input_error");
+                mail.classList.add("p_error");
+                mail.focus();
+                return false;
+            }
+        };
+
+        var telephoneValidation = (telephone) => {
+            console.log('funcPhoneValid');
+            
+            let regexp = /^\+\d{1}\(\d{3}\)\d{3}-\d{4}$/;
+            
+            if (telephone.value == '' ||  telephone.value == '+7(000)000-0000') {
+                spanErrorText[2].innerText = 'Заполните поле!';
+                return false;
+            }
+
+            if (telephone.value.match(regexp)) { 
+                return true;
+            } else {
+            
+                spanErrorText[2].innerText = 'Телефон введите в формате +7(000)000-0000';
+                telephone.classList.add("input_error");
+                telephone.classList.add("p_error");
+                telephone.focus();
+                return false;
+            }
+        };
+    </script>
+</body>
+</html>
