@@ -4,14 +4,14 @@
 </template>
 
 <script>
-import PageHeader from '@/components/PageHeader.vue'
+import PageHeader from "@/components/PageHeader.vue";
 
 export default {
-  name: 'index',
+  name: "index",
   components: {
-    PageHeader
-  }
-}
+    PageHeader,
+  },
+};
 </script>
 
 <style lang="less">
