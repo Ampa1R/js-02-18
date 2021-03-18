@@ -183,7 +183,6 @@ export default {
 @pad_hor_def: 15px;
 @pad_ver_def: 25px;
 
-@footer_height: 1200px;
 .fonts(@fs: @text_fs; @lh: @text_lh; @w: @text_w; @ls: @text_ls) {
   font-size: @fs;
   line-height: @lh;
@@ -210,8 +209,87 @@ export default {
   -webkit-animation: heartbeat 1.5s ease-in-out infinite both;
   animation: heartbeat 1.5s ease-in-out infinite both;
 }
-footer {
-  height: @footer_height;
+/**
+ * ----------------------------------------
+ * animation heartbeat
+ * ----------------------------------------
+ */
+@-webkit-keyframes heartbeat {
+  from {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transform-origin: center center;
+    transform-origin: center center;
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+  }
+
+  10% {
+    -webkit-transform: scale(0.91);
+    transform: scale(0.91);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+
+  17% {
+    -webkit-transform: scale(0.98);
+    transform: scale(0.98);
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+  }
+
+  33% {
+    -webkit-transform: scale(0.87);
+    transform: scale(0.87);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+
+  45% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+  }
+}
+
+@keyframes heartbeat {
+  from {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transform-origin: center center;
+    transform-origin: center center;
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+  }
+
+  10% {
+    -webkit-transform: scale(0.91);
+    transform: scale(0.91);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+
+  17% {
+    -webkit-transform: scale(0.98);
+    transform: scale(0.98);
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+  }
+
+  33% {
+    -webkit-transform: scale(0.87);
+    transform: scale(0.87);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+
+  45% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+  }
 }
 .btn {
   &-subs {
@@ -322,10 +400,6 @@ footer {
   }
 }
 .footer {
-  &-baloon {
-    height: @footer_height;
-  }
-
   & .footer-wrap .cont .logo {
     min-width: 430px;
     margin-right: 90px;

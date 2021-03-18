@@ -1,95 +1,95 @@
 <template>
-    <div id="cartSmall" class="btn-cart__wrap">
-      <a href="Shopping%20Cart.html" class="btn-cart"
-        ><img src="@/assets/img/cart_black.png" alt="" />
-      </a>
-      <div class="btn-cart__count" v-show="CartCount.count > 0">
-        {{ CartCount.count }}
-      </div>
-      <div class="btn-cart__ddc">
-        <ul class="btn-cart__ddc-list">
-          <li
-            v-for="item in CartDisplayed"
-            v-bind:key="item"
-            v-bind:data-cart-item="item.id"
-            v-bind:data-cart-item-t="item.type"
-            class="btn-cart__ddc-item"
-          >
-            <div class="col">
-              <a href="#"><img v-bind:src="item.img" alt="" /></a>
-            </div>
-            <div class="col">
-              <p>{{ item.name }}</p>
-              <p>
-                <i
-                  v-for="n in parseInt(Math.floor(item.star))"
-                  :key="n"
-                  class="fa fa-star"
-                ></i>
-                <i
-                  v-if="
-                    0 < Math.floor(item.star * 10 - Math.floor(item.star) * 10)
-                  "
-                  class="fa fa-star-half-o"
-                  aria-hidden="true"
-                ></i>
+  <div id="cartSmall" class="btn-cart__wrap">
+    <a href="Shopping%20Cart.html" class="btn-cart"
+      ><img src="@/assets/img/cart_black.png" alt="" />
+    </a>
+    <div class="btn-cart__count" v-show="CartCount.count > 0">
+      {{ CartCount.count }}
+    </div>
+    <div class="btn-cart__ddc">
+      <ul class="btn-cart__ddc-list">
+        <li
+          v-for="item in CartDisplayed"
+          v-bind:key="item.id + '/' + item.type"
+          v-bind:data-cart-item="item.id"
+          v-bind:data-cart-item-t="item.type"
+          class="btn-cart__ddc-item"
+        >
+          <div class="col">
+            <a href="#"><img v-bind:src="item.img" alt="" /></a>
+          </div>
+          <div class="col">
+            <p>{{ item.name }}</p>
+            <p>
+              <i
+                v-for="n in parseInt(Math.floor(item.star))"
+                :key="n"
+                class="fa fa-star"
+              ></i>
+              <i
+                v-if="
+                  0 < Math.floor(item.star * 10 - Math.floor(item.star) * 10)
+                "
+                class="fa fa-star-half-o"
+                aria-hidden="true"
+              ></i>
+            </p>
+            <div>
+              <p class="price-count">
+                {{ item.quantity }} <span class="x-txt">x</span> ${{
+                  float2str(item.price)
+                }}
               </p>
-              <div>
-                <p class="price-count">
-                  {{ item.quantity }} <span class="x-txt">x</span> ${{
-                    float2str(item.price)
-                  }}
-                </p>
-                <p class="sub-total clear-fix">
-                  = ${{ float2str(item.price * item.quantity) }}
-                </p>
-              </div>
+              <p class="sub-total clear-fix">
+                = ${{ float2str(item.price * item.quantity) }}
+              </p>
             </div>
-            <div class="col">
-              <a
-                @click.prevent="CartInc(item.id, item.type)"
-                v-bind:href="'cart/inc/' + item.id + '/' + item.type"
-                name="btn-inc-item"
-              >
-                <i class="fas fa-plus-circle"></i>
-              </a>
-              <a
-                @click.prevent="CartDel(item.id, item.type)"
-                v-bind:href="'cart/del/' + item.id + '/' + item.type"
-                name="btn-del-item"
-              >
-                <i class="fa fa-times-circle"></i>
-              </a>
-              <a
-                @click.prevent="CartDec(item.id, item.type)"
-                v-bind:href="'cart/dec/' + item.id + '/' + item.type"
-                name="btn-dec-item"
-              >
-                <i class="fas fa-minus-circle"></i>
-              </a>
-            </div>
-          </li>
-        </ul>
-        <div class="btn-cart__ddc-total">
-          <div class="total-grand">
-            <span>TOTAL</span
-            ><span class="total-grand-summ"
-              >${{ float2str(CartCount.grand_total) }}</span
-            >
           </div>
-          <div class="btn-sqr_bw">
-            <a href="Checkout.html" class="btn-sqr_bw__link"
-              ><span class="btn-sqr_bw__text">Checkout</span></a
+          <div class="col">
+            <a
+              @click.prevent="CartInc(item.id, item.type)"
+              v-bind:href="'cart/inc/' + item.id + '/' + item.type"
+              name="btn-inc-item"
             >
-          </div>
-          <div class="btn-sqr_dl">
-            <a href="Shopping%20Cart.html" class="btn-sqr_dl__link"
-              ><span class="btn-sqr_dl__text">Go to cart</span></a
+              <i class="fas fa-plus-circle"></i>
+            </a>
+            <a
+              @click.prevent="CartDel(item.id, item.type)"
+              v-bind:href="'cart/del/' + item.id + '/' + item.type"
+              name="btn-del-item"
             >
+              <i class="fa fa-times-circle"></i>
+            </a>
+            <a
+              @click.prevent="CartDec(item.id, item.type)"
+              v-bind:href="'cart/dec/' + item.id + '/' + item.type"
+              name="btn-dec-item"
+            >
+              <i class="fas fa-minus-circle"></i>
+            </a>
           </div>
+        </li>
+      </ul>
+      <div class="btn-cart__ddc-total">
+        <div class="total-grand">
+          <span>TOTAL</span
+          ><span class="total-grand-summ"
+            >${{ float2str(CartCount.grand_total) }}</span
+          >
+        </div>
+        <div class="btn-sqr_bw">
+          <a href="Checkout.html" class="btn-sqr_bw__link"
+            ><span class="btn-sqr_bw__text">Checkout</span></a
+          >
+        </div>
+        <div class="btn-sqr_dl">
+          <a href="Shopping%20Cart.html" class="btn-sqr_dl__link"
+            ><span class="btn-sqr_dl__text">Go to cart</span></a
+          >
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -111,16 +111,6 @@ export default {
         return {
           id: parseInt(item.getAttribute("data-cart-item")),
           type: parseInt(item.getAttribute("data-cart-item-t")),
-        };
-      }
-      return undefined;
-    },
-    GetCatalogData(_obj) {
-      let item = _obj.closest("[data-catalog-item][data-catalog-item-t]");
-      if (item) {
-        return {
-          id: parseInt(item.getAttribute("data-catalog-item")),
-          type: parseInt(item.getAttribute("data-catalog-item-t")),
         };
       }
       return undefined;
@@ -160,7 +150,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-
 @color_brand_02: #f16d7f;
 @color_white: #ffffff;
 @color_gray_light_12: #e8e8e8;
@@ -188,13 +177,129 @@ export default {
   -webkit-animation: border-runner 0.5s ease-in-out infinite both;
   animation: border-runner 0.5s ease-in-out infinite both;
 }
+/**
+ * ----------------------------------------
+ * animation border runner
+ * ----------------------------------------
+ */
+@-webkit-keyframes border-runner {
+  0% {
+    border-bottom-color: @color_brand_02;
+    border-top-color: @color_brand_02;
+    border-left-color: @color_gold_01;
+    border-right-color: @color_gold_01;
+  }
 
+  100% {
+    border-bottom-color: @color_gold_01;
+    border-top-color: @color_gold_01;
+    border-left-color: @color_brand_02;
+    border-right-color: @color_brand_02;
+  }
+}
+
+@keyframes border-runner {
+  0% {
+    border-bottom-color: @color_brand_02;
+    border-top-color: @color_brand_02;
+    border-left-color: @color_gold_01;
+    border-right-color: @color_gold_01;
+  }
+
+  100% {
+    border-bottom-color: @color_gold_01;
+    border-top-color: @color_gold_01;
+    border-left-color: @color_brand_02;
+    border-right-color: @color_brand_02;
+  }
+}
 .heartbeat() {
   -webkit-animation: heartbeat 1.5s ease-in-out infinite both;
   animation: heartbeat 1.5s ease-in-out infinite both;
 }
-.btn{
-  
+/**
+ * ----------------------------------------
+ * animation heartbeat
+ * ----------------------------------------
+ */
+@-webkit-keyframes heartbeat {
+  from {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transform-origin: center center;
+    transform-origin: center center;
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+  }
+
+  10% {
+    -webkit-transform: scale(0.91);
+    transform: scale(0.91);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+
+  17% {
+    -webkit-transform: scale(0.98);
+    transform: scale(0.98);
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+  }
+
+  33% {
+    -webkit-transform: scale(0.87);
+    transform: scale(0.87);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+
+  45% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+  }
+}
+
+@keyframes heartbeat {
+  from {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transform-origin: center center;
+    transform-origin: center center;
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+  }
+
+  10% {
+    -webkit-transform: scale(0.91);
+    transform: scale(0.91);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+
+  17% {
+    -webkit-transform: scale(0.98);
+    transform: scale(0.98);
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+  }
+
+  33% {
+    -webkit-transform: scale(0.87);
+    transform: scale(0.87);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+
+  45% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+  }
+}
+.btn {
   &-sqr_dl {
     @btn_h: 50px;
     @lh: 48px;
