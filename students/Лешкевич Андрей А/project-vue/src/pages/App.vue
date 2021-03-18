@@ -15,6 +15,11 @@ export default {
 </script>
 
 <style lang="less">
+
+* {
+  box-sizing: border-box;
+  font-family: "Lato", sans-serif;
+}
 html,
 body {
   height: 100%;
