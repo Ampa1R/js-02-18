@@ -16,12 +16,12 @@ function getURLs() {
         url.CatalogCashed = "api/catalog/elements/get/all.json";
         url.CatalogDisplayed = "api/catalog/displayed/get/index.json";
         break;
-      case "Checkout":
+      case "checkout":
         url.Cart = "api/cart/get/checkout.json";
         url.CatalogCashed = "api/catalog/elements/get/all.json";
         url.CatalogDisplayed = "api/catalog/displayed/get/checkout.json";
         break;
-      case "Product":
+      case "product":
         url.Cart = "api/cart/get/Product.json";
         url.CatalogCashed = "api/catalog/elements/get/Product.json";
         url.CatalogDisplayed = "api/catalog/displayed/get/Product.json";
