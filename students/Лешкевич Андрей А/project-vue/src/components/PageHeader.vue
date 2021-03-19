@@ -105,15 +105,45 @@
     <div class="header-hl"></div>
     <nav class="header-nav-wrap wrap">
       <ul class="nav-list">
-        <li class="nav-item nav-item__active">
-          <div class="nav-item__hover-wrap">
-            <a href="index.html" class="nav-link">Home</a>
-            <!-- <div class="nav-item__ddc"></div> -->
-          </div>
-        </li>
+        <router-link
+          to="/vue/index.html"
+          v-slot="{ href, navigate, isActive, isExactActive }"
+          class="nav-item nav-item__active"
+          custom
+        >
+          <li
+            :class="[
+              isActive && 'nav-item__active',
+              isExactActive && 'nav-item__active',
+              'nav-item',
+            ]"
+          >
+            <div class="nav-item__hover-wrap">
+              <a :href="href" @click="navigate" class="nav-link">Home</a>
+            </div>
+          </li>
+        </router-link>
         <li class="nav-item">
           <div class="nav-item__hover-wrap">
-            <a href="Product.html" class="nav-link">Man</a>
+            <router-link
+              to="/vue/product.html"
+              v-slot="{ href, navigate, isActive, isExactActive }"
+              class="nav-item nav-item__active"
+              custom
+            >
+              <li
+                :class="[
+                  isActive && 'nav-item__active',
+                  isExactActive && 'nav-item__active',
+                  'nav-item',
+                ]"
+              >
+                <div class="nav-item__hover-wrap">
+                  <a :href="href" @click="navigate" class="nav-link">Man</a>
+                </div>
+              </li>
+            </router-link>
+            <!--<a href="Product.html" class="nav-link">Man</a>-->
             <div class="nav-item__ddc">
               <div class="nav-item__ddc-list__wrap">
                 <h3>Women</h3>
@@ -250,31 +280,127 @@
         </li>
         <li class="nav-item">
           <div class="nav-item__hover-wrap">
-            <a href="Single%20Page.html" class="nav-link">Women</a>
+            <router-link
+              to="/vue/single_page.html"
+              v-slot="{ href, navigate, isActive, isExactActive }"
+              class="nav-item nav-item__active"
+              custom
+            >
+              <li
+                :class="[
+                  isActive && 'nav-item__active',
+                  isExactActive && 'nav-item__active',
+                  'nav-item',
+                ]"
+              >
+                <div class="nav-item__hover-wrap">
+                  <a :href="href" @click="navigate" class="nav-link">Women</a>
+                </div>
+              </li>
+            </router-link>
+            <!--<a href="single_page.html" class="nav-link">Women</a>-->
             <!-- <div class="nav-item__ddc"></div> -->
           </div>
         </li>
         <li class="nav-item">
           <div class="nav-item__hover-wrap">
-            <a href="Product.html" class="nav-link">Kids</a>
+            <router-link
+              to="/vue/product.html"
+              v-slot="{ href, navigate, isActive, isExactActive }"
+              class="nav-item nav-item__active"
+              custom
+            >
+              <li
+                :class="[
+                  isActive && 'nav-item__active',
+                  isExactActive && 'nav-item__active',
+                  'nav-item',
+                ]"
+              >
+                <div class="nav-item__hover-wrap">
+                  <a :href="href" @click="navigate" class="nav-link">Kids</a>
+                </div>
+              </li>
+            </router-link>
+            <!--<a href="Product.html" class="nav-link">Kids</a>-->
             <!-- <div class="nav-item__ddc"></div> -->
           </div>
         </li>
         <li class="nav-item">
           <div class="nav-item__hover-wrap">
-            <a href="Product.html" class="nav-link">Accoseriese</a>
+            <router-link
+              to="/vue/product.html"
+              v-slot="{ href, navigate, isActive, isExactActive }"
+              class="nav-item nav-item__active"
+              custom
+            >
+              <li
+                :class="[
+                  isActive && 'nav-item__active',
+                  isExactActive && 'nav-item__active',
+                  'nav-item',
+                ]"
+              >
+                <div class="nav-item__hover-wrap">
+                  <a :href="href" @click="navigate" class="nav-link"
+                    >Accoseriese</a
+                  >
+                </div>
+              </li>
+            </router-link>
+            <!--<a href="Product.html" class="nav-link">Accoseriese</a>-->
             <!-- <div class="nav-item__ddc"></div> -->
           </div>
         </li>
         <li class="nav-item">
           <div class="nav-item__hover-wrap">
-            <a href="Product.html" class="nav-link">Featured</a>
+            <router-link
+              to="/vue/product.html"
+              v-slot="{ href, navigate, isActive, isExactActive }"
+              class="nav-item nav-item__active"
+              custom
+            >
+              <li
+                :class="[
+                  isActive && 'nav-item__active',
+                  isExactActive && 'nav-item__active',
+                  'nav-item',
+                ]"
+              >
+                <div class="nav-item__hover-wrap">
+                  <a :href="href" @click="navigate" class="nav-link"
+                    >Featured</a
+                  >
+                </div>
+              </li>
+            </router-link>
+            <!--<a href="Product.html" class="nav-link">Featured</a>-->
             <!-- <div class="nav-item__ddc"></div> -->
           </div>
         </li>
         <li class="nav-item">
           <div class="nav-item__hover-wrap">
-            <a href="Product.html" class="nav-link">Hot&nbsp;Deals</a>
+            <router-link
+              to="/vue/product.html"
+              v-slot="{ href, navigate, isActive, isExactActive }"
+              class="nav-item nav-item__active"
+              custom
+            >
+              <li
+                :class="[
+                  isActive && 'nav-item__active',
+                  isExactActive && 'nav-item__active',
+                  'nav-item',
+                ]"
+              >
+                <div class="nav-item__hover-wrap">
+                  <a :href="href" @click="navigate" class="nav-link"
+                    >Hot&nbsp;Deals</a
+                  >
+                </div>
+              </li>
+            </router-link>
+            <!--<a href="Product.html" class="nav-link">Hot&nbsp;Deals</a>-->
             <!-- <div class="nav-item__ddc"></div> -->
           </div>
         </li>
@@ -682,7 +808,7 @@ export default {
     }
   }
 
-  &-nav-wrap {
+  .header &-nav-wrap {
     padding: 0;
     margin-bottom: 3px;
 

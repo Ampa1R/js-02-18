@@ -26,14 +26,12 @@ function getURLs() {
         url.CatalogCashed = "api/catalog/elements/get/Product.json";
         url.CatalogDisplayed = "api/catalog/displayed/get/Product.json";
         break;
-      case "Shopping Cart":
-      case "Shopping%20Cart":
+      case "shopping_cart":
         url.Cart = "api/cart/get/Shopping Cart.json";
         url.CatalogCashed = "api/catalog/elements/get/Shopping Cart.json";
         url.CatalogDisplayed = "api/catalog/displayed/get/Shopping Cart.json";
         break;
-      case "Single Page":
-      case "Single%20Page":
+      case "single_page":
         url.Cart = "api/cart/get/Single Page.json";
         url.CatalogCashed = "api/catalog/elements/get/Single Page.json";
         url.CatalogDisplayed = "api/catalog/displayed/get/Single Page.json";

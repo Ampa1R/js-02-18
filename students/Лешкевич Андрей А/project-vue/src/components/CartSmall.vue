@@ -1,6 +1,6 @@
 <template>
   <div id="cartSmall" class="btn-cart__wrap">
-    <a href="Shopping%20Cart.html" class="btn-cart"
+    <a href="shopping_cart.html" class="btn-cart"
       ><img src="@/assets/img/cart_black.png" alt="" />
     </a>
     <div class="btn-cart__count" v-show="CartCount.count > 0">
@@ -77,15 +77,13 @@
             >${{ float2str(CartCount.grand_total) }}</span
           >
         </div>
-        <div class="btn-sqr_bw">
-          <a href="Checkout.html" class="btn-sqr_bw__link"
-            ><span class="btn-sqr_bw__text">Checkout</span></a
-          >
+        <div class="btn-sqr_bw">          
+          <router-link to="/vue/checkout.html" class="btn-sqr_bw__link"><span class="btn-sqr_bw__text">Checkout</span></router-link>
         </div>
         <div class="btn-sqr_dl">
-          <a href="Shopping%20Cart.html" class="btn-sqr_dl__link"
-            ><span class="btn-sqr_dl__text">Go to cart</span></a
-          >
+          <router-link to="/vue/shopping_cart.html" class="btn-sqr_dl__link">
+          <span class="btn-sqr_dl__text">Go to cart</span>
+          </router-link>
         </div>
       </div>
     </div>

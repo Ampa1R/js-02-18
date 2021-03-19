@@ -163,71 +163,86 @@ export default {
     }
   }
 }
-.products-grid {
-  &_list {
-    list-style: none;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin: 54px 0 40px 0;
-    padding: 0;
-  }
-
-  &_item {
-    @height: 280px;
-    @width: 261px;
-    margin-bottom: 40px;
-
-    & .top-block {
-      height: @height;
-      width: @width;
-      background-color: @color_gray_light_13;
-      position: relative;
-
-      & .hovered {
-        position: absolute;
-        display: flex;
-        z-index: -1;
-        top: 0;
-        background-color: rgba(58, 56, 56, 0.83);
-        height: @height;
-        width: @width;
-        justify-content: center;
-        align-items: center;
-        opacity: 0;
-      }
-    }
-
-    & h3 {
-      .fonts(13px; 1.2; 400; normal);
-      text-transform: uppercase;
-      color: @color_gray_dark_01;
-      margin-left: 15px;
-    }
-
-    & p {
-      .fonts(16px; 1.2; 700; normal);
-      text-transform: uppercase;
-      color: @color_brand_02;
-      margin-left: 15px;
-    }
-
-    &:hover {
-      box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.15);
-      transition: box-shadow 0.5s ease-out;
-
-      & .top-block {
-        & .hovered {
-          z-index: 1;
-          opacity: 1;
-          transition: opacity 0.5s ease-out;
-        }
-      }
-    }
-  }
-
-  &_link {
-    text-decoration: none;
+.products {
+  &-wrap {
+    margin: 67px auto 112px auto;
   }
 }
+.products-grid {
+      &_list {
+        list-style: none;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin: 54px 0 40px 0;
+        padding: 0;
+      }
+
+      &_item {
+        @height: 280px;
+        @width: 261px;
+        margin-bottom: 40px;
+
+        & .top-block {
+          height: @height;
+          width: @width;
+          background-color: @color_gray_light_13;
+          position: relative;
+& .visible {
+        height: inherit;
+        width: inherit;
+
+        & img {
+          align-self: center;
+          height: 100%;
+          width: 100%;
+          object-fit: contain;
+        }
+      }
+          & .hovered {
+            position: absolute;
+            display: flex;
+            z-index: -1;
+            top: 0;
+            background-color: rgba(58, 56, 56, 0.83);
+            height: @height;
+            width: @width;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+          }
+        }
+
+        & h3 {
+          .fonts(13px; 1.2; 400; normal);
+          text-transform: uppercase;
+          color: @color_gray_dark_01;
+          margin-left: 15px;
+        }
+
+        & p {
+          .fonts(16px; 1.2; 700; normal);
+          text-transform: uppercase;
+          color: @color_brand_02;
+          margin-left: 15px;
+        }
+
+        &:hover {
+          box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.15);
+          transition: box-shadow 0.5s ease-out;
+
+          & .top-block {
+            & .hovered {
+              z-index: 1;
+              opacity: 1;
+              transition: opacity 0.5s ease-out;
+            }
+          }
+        }
+      }
+
+      &_link {
+        text-decoration: none;
+      }
+    }
 </style>

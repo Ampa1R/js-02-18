@@ -23,6 +23,24 @@ module.exports = {
       template: 'public/index.html',
       title: 'Brand shop - Checkout',
       chunks: ['chunk-vendors', 'chunk-common', 'checkout']
+    },
+    'product': {
+      entry: './src/pages/main.js',
+      template: 'public/index.html',
+      title: 'Brand shop - Product',
+      chunks: ['chunk-vendors', 'chunk-common', 'product']
+    },
+    'shopping_cart': {
+      entry: './src/pages/main.js',
+      template: 'public/index.html',
+      title: 'Brand shop - Some Product Page',
+      chunks: ['chunk-vendors', 'chunk-common', 'shopping_cart']
+    },
+    'single_page': {
+      entry: './src/pages/main.js',
+      template: 'public/index.html',
+      title: 'Brand shop - Shoping Cart',
+      chunks: ['chunk-vendors', 'chunk-common', 'single_page']
     }
   }
 }
