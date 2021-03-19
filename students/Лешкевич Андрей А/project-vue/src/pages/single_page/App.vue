@@ -3,26 +3,34 @@
   <section
     id="slider"
     class="top-slider"
-    data-width="597px"
-    data-height="724px"
   >
     <div class="btn-sqr_ar">
       <a
         href="#"
-        onclick="slider.left();return false;"
+        @click.prevent="SliderLeft()"
         class="btn-sqr_ar__link clear-fix"
         ><span class="btn-sqr_ar__icon"><i class="fa fa-angle-left"></i></span>
       </a>
     </div>
     <div class="wrap top-slider-wrap">
-      <div class="top-slider-image">
-        <img src="img/catalog_item_22_big.png" alt="" />
+      <div v-for="(item,index) in $store.state.Slider.value"
+        v-bind:key="index" :class="[
+              ($store.state.Slider.index != index) && 'top-slider-hidden',
+              'top-slider-image',
+            ]">
+        <a v-bind:href="item" class="progressive replace">
+          <img
+            src="@/assets/img/tiny.a1.21.jpg"
+            class="preview"
+            alt="image"
+          />
+        </a>
       </div>
     </div>
     <div class="btn-sqr_ar">
       <a
         href="#"
-        onclick="slider.right();return false;"
+        @click.prevent="SliderRight()"
         class="btn-sqr_ar__link clear-fix"
         ><span class="btn-sqr_ar__icon"><i class="fa fa-angle-left"></i></span>
       </a>
@@ -139,6 +147,22 @@ export default {
     PageTopRibbon,
     ProductsList,
   },
+  methods: {
+    float2str(int, fract = 2) {
+      let arr = int.toString().split(".");
+      if (arr[1] === undefined) {
+        arr[1] = "0";
+      }
+      arr[1] = arr[1].substring(0, fract).padStart(fract, "0");
+      return arr.join(".");
+    },
+    SliderLeft(){
+      return this.$store.dispatch("SliderLeft");
+    },
+    SliderRight(){
+      return this.$store.dispatch("SliderRight");
+    }
+  },
 };
 </script>
 
@@ -192,6 +216,8 @@ export default {
     align-items: flex-start;
     justify-content: space-between;
     position: relative;
+    width: 597px;
+    height: 724px;
   }
 
   &-image {

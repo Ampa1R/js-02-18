@@ -542,7 +542,6 @@ export default {
       }
 
       &__btn {
-        float: left;
         color: @color_in;
         .fonts(@text_fs; @lh);
         padding: @pad_btn;

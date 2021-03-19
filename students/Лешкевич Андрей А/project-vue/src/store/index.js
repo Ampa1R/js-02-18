@@ -41,7 +41,7 @@ function getURLs() {
   return url;
 }
 export default createStore({
-  
+
   state() {
     return {
       CatalogChashed: {
@@ -56,6 +56,15 @@ export default createStore({
         isLoaded: false,
         value: [],
       },
+      Slider: {
+        isLoaded: false,
+        index: 1,
+        value: [
+          "https://picsum.photos/1920/1080?random=1",
+          "img/catalog_item_22_big.png",
+          "https://picsum.photos/1920/1080?random=2",
+        ],
+      }
     };
   },
   getters: {
@@ -159,6 +168,9 @@ export default createStore({
     },
     CartClean(state) {
       state.Cart.value = [];
+    },
+    SetSliderIndex(state, index) {
+      state.Slider.index = index;
     }
   },
   actions: {
@@ -252,7 +264,7 @@ export default createStore({
         let index = context.state.Cart.value.findIndex(obj => { return (obj.id === item.id && obj.type === item.type) });
         if (index !== -1) {
           if (item.quantity > 0) {
-            context.commit('CartSet', {index:index, quantity:item.quantity});
+            context.commit('CartSet', { index: index, quantity: item.quantity });
           } else {
             context.commit('CartDel', index);
           }
@@ -261,6 +273,16 @@ export default createStore({
           reject();
         }
       })
+    },
+    SliderLeft(context) {
+      if (0 < context.state.Slider.index) {
+        context.commit('SetSliderIndex', context.state.Slider.index - 1);
+      }
+    },
+    SliderRight(context) {
+      if (context.state.Slider.index < (context.state.Slider.value.length - 1)) {
+        context.commit('SetSliderIndex', context.state.Slider.index + 1);
+      }
     }
   },
   modules: {

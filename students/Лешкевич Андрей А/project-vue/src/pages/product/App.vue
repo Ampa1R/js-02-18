@@ -575,9 +575,6 @@ export default {
             }
           }
         }
-
-        & .nav-cat {
-        }
       }
 
       & .detailed-grid {
