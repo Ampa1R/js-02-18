@@ -1,39 +1,36 @@
-
 import { createRouter, createWebHistory } from 'vue-router'
-const LazyIndex = () => import('../pages/index/App.vue')
-const LazyCheckout = () => import('../pages/checkout/App.vue')
-const LazyProduct = () => import('../pages/product/App.vue')
-const LazyShopping_cart = () => import('../pages/shopping_cart/App.vue')
-const LazySingle_page = () => import('../pages/single_page/App.vue')
 
+function loadPage(page) {
+  return () => import(/* webpackChunkName: "chunk-[request]" */ `@/pages/${page}.vue`)
+}
 const routerHistory = createWebHistory()
 
 const router = createRouter({
   history: routerHistory,
   routes: [
-    { 
+    {
       path: '/vue/index.html',
-      component: LazyIndex,
+      component: loadPage('index'),
       alias: '/vue/'
     },
     {
       path: '/vue/checkout.html',
-      component: LazyCheckout,
+      component: loadPage('checkout'),
       alias: '/vue/checkout'
     },
     {
       path: '/vue/product.html',
-      component: LazyProduct,
+      component: loadPage('product'),
       alias: '/vue/product'
     },
     {
       path: '/vue/shopping_cart.html',
-      component: LazyShopping_cart,
+      component: loadPage('shopping_cart'),
       alias: '/vue/shopping_cart'
     },
     {
       path: '/vue/single_page.html',
-      component: LazySingle_page,
+      component: loadPage('single_page'),
       alias: '/vue/single_page'
     }
   ]
