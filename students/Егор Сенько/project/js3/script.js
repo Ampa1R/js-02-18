@@ -75,34 +75,6 @@ class GoodsList {
         });
     }
 
-    newFetchData(){
-        return new Promise((resolve, reject) => {
-            fetch(`${API_ROOT}/catalogData.json`)
-                .then((res) => res.json())
-                .then((goods) => {
-                    this.goods = goods;
-                    this.filteredGoods = goods;
-                    resolve();
-                })
-                .catch((error) => {
-                    console.log(`Can't fetch data`, error);
-                    reject(error);
-                })
-        });
-    }
-
-    async newNewFetchData() {
-        try {
-            const res = await fetch(`${API_ROOT}/catalogData.json`);
-            const goods = await res.json();
-            this.goods = goods;
-            this.filteredGoods = goods;
-        } catch (err) {
-            console.log(`Can't fetch data`, error);
-            throw new Error(error);
-        }
-    }
-
     getTotalPrice() {
         const sum = this.goods.reduce(
             (accumulator, currentElement) => accumulator + currentElement.price,
@@ -147,19 +119,28 @@ class Basket {
             });
     }
 
+    // addItem(item) {
+    //     request('addToBasket.json')
+    //         .then((response) => {
+    //             if (response.result !== 0) {
+    //                 const itemIndex = this.goods.findIndex((goodsItem) => goodsItem.id_product === item.id_product);
+    //                 if (itemIndex > -1) {
+    //                     this.goods[itemIndex].quantity += 1;
+    //                 } else {
+    //                     this.goods.push({ ...item, quantity: 1 });
+    //                 }
+    //                 console.log(this.goods);
+    //             } else {
+    //                 console.error(`Can't add item to basket`, item, this.goods);
+    //             }
+    //         })
+    // }
+
     addItem(item) {
         request('addToBasket.json')
             .then((response) => {
                 if (response.result !== 0) {
-                    const itemIndex = this.goods.findIndex((goodsItem) => goodsItem.id_product === item.id_product);
-                    if (itemIndex > -1) {
-                        this.goods[itemIndex].quantity += 1;
-                    } else {
-                        this.goods.push({ ...item, quantity: 1 });
-                    }
-                    console.log(this.goods);
-                } else {
-                    console.error(`Can't add item to basket`, item, this.goods);
+                    const itemIndex = this.goods.findIndex(goodItem => goodItem.id_product === item.id_product);
                 }
             })
     }
