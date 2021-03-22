@@ -108,7 +108,7 @@
         <router-link
           to="/vue/index.html"
           v-slot="{ href, navigate, isActive, isExactActive }"
-          class="nav-item nav-item__active"
+          :class="['nav-item','nav-item__active']"
           custom
         >
           <li
@@ -128,7 +128,7 @@
             <router-link
               to="/vue/product.html"
               v-slot="{ href, navigate, isActive, isExactActive }"
-              class="nav-item nav-item__active"
+              :class="['nav-item','nav-item__active']"
               custom
             >
               <li
@@ -283,7 +283,7 @@
             <router-link
               to="/vue/single_page.html"
               v-slot="{ href, navigate, isActive, isExactActive }"
-              class="nav-item nav-item__active"
+              :class="['nav-item','nav-item__active']"
               custom
             >
               <li
@@ -307,7 +307,7 @@
             <router-link
               to="/vue/product.html"
               v-slot="{ href, navigate, isActive, isExactActive }"
-              class="nav-item nav-item__active"
+              :class="['nav-item','nav-item__active']"
               custom
             >
               <li
@@ -331,7 +331,7 @@
             <router-link
               to="/vue/product.html"
               v-slot="{ href, navigate, isActive, isExactActive }"
-              class="nav-item nav-item__active"
+              :class="['nav-item','nav-item__active']"
               custom
             >
               <li
@@ -357,7 +357,7 @@
             <router-link
               to="/vue/product.html"
               v-slot="{ href, navigate, isActive, isExactActive }"
-              class="nav-item nav-item__active"
+              :class="['nav-item','nav-item__active']"
               custom
             >
               <li
@@ -383,7 +383,7 @@
             <router-link
               to="/vue/product.html"
               v-slot="{ href, navigate, isActive, isExactActive }"
-              class="nav-item nav-item__active"
+              :class="['nav-item','nav-item__active']"
               custom
             >
               <li

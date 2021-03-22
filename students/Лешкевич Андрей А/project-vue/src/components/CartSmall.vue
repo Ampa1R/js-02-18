@@ -78,10 +78,10 @@
           >
         </div>
         <div class="btn-sqr_bw">          
-          <router-link to="/vue/checkout.html" class="btn-sqr_bw__link"><span class="btn-sqr_bw__text">Checkout</span></router-link>
+          <router-link to="/vue/checkout.html" :class="btn-sqr_bw__link"><span class="btn-sqr_bw__text">Checkout</span></router-link>
         </div>
         <div class="btn-sqr_dl">
-          <router-link to="/vue/shopping_cart.html" class="btn-sqr_dl__link">
+          <router-link to="/vue/shopping_cart.html" :class="btn-sqr_dl__link">
           <span class="btn-sqr_dl__text">Go to cart</span>
           </router-link>
         </div>

@@ -1,7 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 function loadPage(page) {
-  return () => import(/* webpackChunkName: "chunk-[request]" */ `@/pages/${page}.vue`)
+  return () => import(
+    /* webpackChunkName: "chunk-[request]" */
+    /* webpackPrefetch: 0 */
+    /* webpackPreload: 0 */
+    `@/pages/${page}.vue`)
 }
 const routerHistory = createWebHistory()
 
