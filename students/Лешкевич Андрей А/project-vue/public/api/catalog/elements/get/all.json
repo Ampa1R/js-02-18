@@ -1,8 +1,7 @@
 {
     "status": 200,
-    "catalog": [
-        {
-           "id":1,
+    "catalog": {
+        "1":{
            "name":"Mango People T-shirt #1",
            "type":{
               "0":{
@@ -21,8 +20,7 @@
             }
          }
         },
-        {
-           "id":2,
+        "2":{
            "name":"Mango People T-shirt #2",
            "type":{
             "0":{
@@ -34,8 +32,7 @@
               }
             }
         },
-        {
-           "id":3,
+        "3":{
            "name":"Mango People T-shirt #3",
            "type":{
             "0":{
@@ -47,8 +44,7 @@
               }
             }
         },
-        {
-           "id":4,
+        "4":{
            "name":"Mango People T-shirt #4",
            "type":{
             "0":{
@@ -60,8 +56,7 @@
               }
             }
         },
-        {
-           "id":5,
+        "5":{
            "name":"Mango People T-shirt #5",
            "type":{
             "0":{
@@ -73,8 +68,7 @@
               }
             }
         },
-        {
-           "id":6,
+        "6":{
            "name":"Mango People T-shirt #6",
            "type":{
             "0":{
@@ -86,8 +80,7 @@
               }
             }
         },
-        {
-           "id":7,
+        "7":{
            "name":"Mango People T-shirt #7",
            "type":{
             "0":{
@@ -99,8 +92,7 @@
               }
             }
         },
-        {
-           "id":8,
+        "8":{
            "name":"Mango People T-shirt #8",
            "type":{
             "0":{
@@ -112,8 +104,7 @@
               }
             }
         },
-        {
-           "id":9,
+        "9":{
            "name":"Mango People T-shirt #9",
            "type":{
             "0":{
@@ -125,8 +116,7 @@
               }
             }
         },
-        {
-           "id":10,
+        "10":{
            "name":"Mango People T-shirt #10",
            "type":{
             "0":{
@@ -138,8 +128,7 @@
               }
             }
         },
-        {
-           "id":11,
+        "11":{
            "name":"Mango People T-shirt #11",
            "type":{
             "0":{
@@ -151,8 +140,7 @@
               }
             }
         },
-        {
-           "id":12,
+        "12":{
            "name":"Mango People T-shirt #12",
            "type":{
             "0":{
@@ -164,8 +152,7 @@
               }
             }
         },
-        {
-           "id":13,
+        "13":{
            "name":"Mango People T-shirt #13",
            "type":{
             "0":{
@@ -177,8 +164,7 @@
               }
             }
         },
-        {
-           "id":14,
+        "14":{
            "name":"Mango People T-shirt #14",
            "type":{
             "0":{
@@ -190,8 +176,7 @@
               }
             }
         },
-        {
-           "id":15,
+        "15":{
            "name":"Mango People T-shirt #15",
            "type":{
             "0":{
@@ -203,8 +188,7 @@
               }
             }
         },
-        {
-           "id":16,
+        "16":{
            "name":"Mango People T-shirt #16",
            "type":{
             "0":{
@@ -216,8 +200,7 @@
               }
             }
         },
-        {
-           "id":17,
+        "17":{
            "name":"Mango People T-shirt #17",
            "type":{
             "0":{
@@ -229,8 +212,7 @@
               }
             }
         },
-        {
-           "id":18,
+        "18":{
            "name":"Mango People T-shirt #18",
            "type":{
             "0":{
@@ -242,8 +224,7 @@
               }
             }
         },
-        {
-           "id":19,
+        "19":{
            "name":"Mango People T-shirt #19",
            "type":{
             "0":{
@@ -255,8 +236,7 @@
               }
             }
         },
-        {
-           "id":20,
+        "20":{
            "name":"Mango People T-shirt #20",
            "type":{
             "0":{
@@ -268,8 +248,7 @@
               }
             }
         },
-        {
-           "id":21,
+        "21":{
            "name":"Mango People T-shirt #21",
            "type":{
             "0":{
@@ -281,5 +260,5 @@
               }
             }
         }
-     ]
+      }
 }

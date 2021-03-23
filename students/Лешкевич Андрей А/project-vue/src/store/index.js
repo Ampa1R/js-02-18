@@ -5,15 +5,16 @@ function getURLs() {
   let m,
     url = {
       Cart: "api/cart/get/index.json",
-      CatalogCashed: "api/catalog/elements/get/all.json",
+      CatalogCashed: "api/catalog/elements/get/index.json",
       CatalogDisplayed: "api/catalog/displayed/get/index.json",
     };
   if ((m = regex.exec(window.location.href)) !== null) {
     switch (m[1]) {
       case "":
+      case "/":
       case "index":
         url.Cart = "api/cart/get/index.json";
-        url.CatalogCashed = "api/catalog/elements/get/all.json";
+        url.CatalogCashed = "api/catalog/elements/get/index.json";
         url.CatalogDisplayed = "api/catalog/displayed/get/index.json";
         break;
       case "checkout":
@@ -44,18 +45,9 @@ export default createStore({
 
   state() {
     return {
-      CatalogChashed: {
-        isLoaded: false,
-        value: [],
-      },
-      CatalogDisplayedItems: {
-        isLoaded: false,
-        value: [],
-      },
-      Cart: {
-        isLoaded: false,
-        value: [],
-      },
+      CatalogChashed: {},
+      CatalogDisplayedItems: {},
+      Cart: new Object(),
       Slider: {
         isLoaded: false,
         index: 1,
@@ -69,15 +61,13 @@ export default createStore({
   },
   getters: {
     CatalogDisplayed: (state) => {
-      if (
-        state.CatalogChashed.isLoaded &&
-        state.CatalogDisplayedItems.isLoaded
-      ) {
-        return state.CatalogDisplayedItems.value.map((item) => {
-          let elem = state.CatalogChashed.value.find((obj) => {
+      let cat = (Object.keys(state.CatalogDisplayedItems).length === 0
+        && state.CatalogDisplayedItems.constructor === Object) ? [] : state.CatalogDisplayedItems.map((item) => {
+          /*let elem = state.CatalogChashed.value.find((obj) => {
             return obj.id === item.id;
-          });
-          if (elem.type[item.type] !== undefined) {
+          });*/
+          let elem = state.CatalogChashed[item.id] !== undefined ? state.CatalogChashed[item.id] : undefined;
+          if (elem !== undefined && elem.type[item.type] !== undefined) {
             return {
               id: item.id,
               name: elem.name,
@@ -88,19 +78,30 @@ export default createStore({
               color: elem.type[item.type].color,
               size: elem.type[item.type].size,
             };
-          } else return {};
+          } else {
+            return {
+              id: item.id,
+              name: 'Requested on server',
+              type: item.type,
+              img: '',
+              price: 0,
+              star: 0,
+              color: 'Requested on server',
+              size: 'Requested on server',
+            };
+          }
         });
-      }
-      return [];
+      return cat;
     },
     CartDisplayed: (state) => {
       const regex = /(\..+$)/gm;
-      if (state.CatalogChashed.isLoaded && state.Cart.isLoaded) {
-        return state.Cart.value.map((item) => {
-          let elem = state.CatalogChashed.value.find((obj) => {
+      return (Object.keys(state.Cart).length === 0
+        && state.Cart.constructor === Object) ? [] : state.Cart.map((item) => {
+          /*let elem = state.CatalogChashed.value.find((obj) => {
             return obj.id === item.id;
-          });
-          if (elem.type[item.type] !== undefined) {
+          });*/
+          let elem = state.CatalogChashed[item.id] !== undefined ? state.CatalogChashed[item.id] : undefined;
+          if (elem !== undefined && elem.type[item.type] !== undefined) {
             return {
               id: item.id,
               name: elem.name,
@@ -112,10 +113,19 @@ export default createStore({
               color: elem.type[item.type].color,
               size: elem.type[item.type].size,
             };
-          } else return {};
+          } else {
+            return {
+              id: item.id,
+              name: 'Requested on server',
+              type: item.type,
+              img: '',
+              price: 0,
+              star: 0,
+              color: 'Requested on server',
+              size: 'Requested on server',
+            };
+          }
         });
-      }
-      return [];
     },
     CartCount: (state) => {
       let stat = {
@@ -123,16 +133,15 @@ export default createStore({
         count: 0,
         grand_total: 0,
       };
-      if (state.CatalogChashed.isLoaded && state.Cart.isLoaded) {
-        for (let item of Object.values(state.Cart.value)) {
-          let cat = state.CatalogChashed.value.find((obj) => {
-            return obj.id === item.id;
-          });
-          if (cat) {
-            stat.grand_total += cat.type[item.type].price * item.quantity;
-            stat.count += item.quantity;
-            stat.products++;
-          }
+      for (let item of Object.values(state.Cart)) {
+        /*let cat = state.CatalogChashed.value.find((obj) => {
+          return obj.id === item.id;
+        });*/
+        let cat = state.CatalogChashed[item.id] !== undefined ? state.CatalogChashed[item.id] : undefined;
+        if (cat && cat.type[item.type] !== undefined) {
+          stat.grand_total += cat.type[item.type].price * item.quantity;
+          stat.count += item.quantity;
+          stat.products++;
         }
       }
       return stat;
@@ -140,34 +149,36 @@ export default createStore({
   },
   mutations: {
     UpdateCatalogChashed(state, catalog) {
-      state.CatalogChashed.value = catalog;
-      state.CatalogChashed.isLoaded = true;
+      if (catalog.merge !== undefined) {
+        state.CatalogChashed = Object.assign(state.CatalogChashed, catalog.catalog);
+      }
+      else {
+        state.CatalogChashed = catalog;
+      }
     },
     UpdateCatalogDisplayedItems(state, displayed) {
-      state.CatalogDisplayedItems.value = displayed;
-      state.CatalogDisplayedItems.isLoaded = true;
+      state.CatalogDisplayedItems = displayed;
     },
     UpdateCart(state, cart) {
-      state.Cart.value = cart;
-      state.Cart.isLoaded = true;
+      state.Cart = cart;
     },
     CartInc(state, index) {
-      state.Cart.value[index].quantity++;
+      state.Cart[index].quantity++;
     },
     CartDec(state, index) {
-      state.Cart.value[index].quantity--;
+      state.Cart[index].quantity--;
     },
     CartDel(state, index) {
-      state.Cart.value.splice(index, 1);
+      state.Cart.splice(index, 1);
     },
     CartAdd(state, item) {
-      state.Cart.value.push(item);
+      state.Cart.push(item);
     },
     CartSet(state, payload) {
-      state.Cart.value[payload.index].quantity = payload.quantity;
+      state.Cart[payload.index].quantity = payload.quantity;
     },
     CartClean(state) {
-      state.Cart.value = [];
+      state.Cart = [];
     },
     SetSliderIndex(state, index) {
       state.Slider.index = index;
@@ -194,8 +205,32 @@ export default createStore({
       let json = await response.json();
       if (json.status === 200) {
         context.commit("UpdateCatalogDisplayedItems", json.displayed);
+        context.dispatch('GetCatalogItems',context.state.CatalogDisplayedItems)
       } else {
         throw Error("Displayed Catalog load error");
+      }
+    },
+    async GetCatalogItems(context, displayed) {
+      console.dir(Object.keys(context.state.CatalogChashed).length)
+      console.dir(context.state.CatalogChashed.constructor)
+      let request = (Object.keys(context.state.CatalogChashed).length === 0
+        && context.state.CatalogChashed.constructor === Object) ? Object.assign(displayed,{empty:true}) :
+        displayed.map((item) => {
+          let cat = context.state.CatalogChashed[item.id] !== undefined ? context.state.CatalogChashed[item.id] : undefined;
+          if (!cat || cat.type[item.type] === undefined) {
+            return { id: item.id, type: item.type }
+          }
+        });
+      console.dir(request)
+      let response = await fetch('api/catalog/elements/get/all.json');
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+      let json = await response.json();
+      if (json.status === 200) {
+        context.commit("UpdateCatalogChashed", { catalog: json.catalog, merge: true });
+      } else {
+        throw Error("Catalog load error");
       }
     },
     async GetCart(context) {
@@ -206,6 +241,7 @@ export default createStore({
       let json = await response.json();
       if (json.status === 200) {
         context.commit("UpdateCart", json.cart);
+        context.dispatch('GetCatalogItems',context.state.Cart)
       } else {
         throw Error("Cart load error");
       }

@@ -13,29 +13,29 @@ const router = createRouter({
   history: routerHistory,
   routes: [
     {
-      path: '/vue/index.html',
+      path: '/index.html',
       component: loadPage('index'),
-      alias: '/vue/'
+      alias: '/'
     },
     {
-      path: '/vue/checkout.html',
+      path: '/checkout.html',
       component: loadPage('checkout'),
-      alias: '/vue/checkout'
+      alias: '/checkout'
     },
     {
-      path: '/vue/product.html',
+      path: '/product.html',
       component: loadPage('product'),
-      alias: '/vue/product'
+      alias: '/product'
     },
     {
-      path: '/vue/shopping_cart.html',
+      path: '/shopping_cart.html',
       component: loadPage('shopping_cart'),
-      alias: '/vue/shopping_cart'
+      alias: '/shopping_cart'
     },
     {
-      path: '/vue/single_page.html',
+      path: '/single_page.html',
       component: loadPage('single_page'),
-      alias: '/vue/single_page'
+      alias: '/single_page'
     }
   ]
 })

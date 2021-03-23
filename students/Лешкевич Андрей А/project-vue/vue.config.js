@@ -1,6 +1,6 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
-  publicPath: '/vue/',
+  publicPath: '',
   configureWebpack: {
     plugins: [
       new CopyWebpackPlugin([

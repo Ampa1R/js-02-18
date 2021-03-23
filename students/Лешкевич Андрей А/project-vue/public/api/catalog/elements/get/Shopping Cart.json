@@ -1,8 +1,7 @@
 {
     "status": 200,
-    "catalog": [        
-        {
-           "id":15,
+    "catalog": {        
+      "15": {
            "name":"Mango People T-shirt #15",
            "type":{
             "0":{
@@ -14,8 +13,7 @@
               }
             }
         },
-        {
-           "id":16,
+        "16": {
            "name":"Mango People T-shirt #16",
            "type":{
             "0":{
@@ -27,8 +25,7 @@
               }
             }
         },
-        {
-           "id":17,
+        "17": {
            "name":"Mango People T-shirt #17",
            "type":{
             "0":{
@@ -40,5 +37,5 @@
               }
             }
         }
-     ]
+      }
 }
