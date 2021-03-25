@@ -9,14 +9,12 @@
 <body>
   <div id="app">
     <header>
-      <search :item-search="searchLine" :filter-items="filterGoods"></search>
+      <search :value="searchLine" @change="searchLine = $event"></search>
     </header>
     <main>
-      <goods-list :goods="filteredGoods"></goods-list>
-        
-      <div class="cart" v-if="isVisibleCart">
-
-      </div>
+      <goods-list v-if="!isError" :goods="filteredGoods"></goods-list>
+      <request-hernya v-else :ermsg="errorText"></request-hernya>
+      <cart class="cart" v-if="isVisibleCart" :items="cartItems"></cart>
     </main>
   </div>
 

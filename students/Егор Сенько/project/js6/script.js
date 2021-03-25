@@ -41,60 +41,87 @@ Vue.component('goods-item', {
 });
 
 Vue.component('search', {
-    props: ['item-search', 'filter-items'],
+    props: ['value'],
     template: `
         <div class="search">
-            <input type="text" class="goods-search"/>
-            <button class="search-button" type="button" @click="filter-items" >Искать</button>
+            <input type="text" class="goods-search" @input="handleInput" :value="value"/>
+        </div>
+    `,
+    methods: {
+        handleInput(event) {
+            this.$emit('change', event.target.value);
+            
+        }
+    }
+})
+
+Vue.component('user-cart', {
+    props: ['items'],
+    template: `
+        <div class="cart">
+            <cart-item v-for="item in items" :item="item"></cart-item>
+        </div>
+    `
+});
+
+Vue.component('cart-item', {
+    props: ['item'],
+    template: `
+        <div class="cart-item">
+            <h2>{{cart-item.product_name}}</h2>
+            <p>{{cart-item.price}}</p>
         </div>
     `
 })
 
+Vue.component('request-hernya', {
+    props: ['ermsg'],
+    template: `
+        <p>Ошибка {{ermsg}}</p>
+    `
+});
+
 const app = new Vue({
     el: '#app',
+
     data: {
         goods: [],
-        filteredGoods: [],
-        searchLine: 'Kek',
-        isVisibleCart: false
+        searchLine: '',
+        isVisibleCart: false,
+        cartItems: [],
+        errorCode: 200, 
+        errorText: '',
+        isError: false
     },
+
     methods: {
-        makeGETRequest(url, callback) {
-            const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
-    
-            var xhr;
-    
-            if (window.XMLHttpRequest) {
-                xhr = new XMLHttpRequest();
-            } else if (window.ActiveXObject) { 
-                xhr = new ActiveXObject("Microsoft.XMLHTTP");
+        addItem(item) {
+            let tmp = cartItems.map(cartItem => cartItem.product_name === item.product_name);
+
+            if (!tmp.length) {
+                cartItems.push(item);
             }
-    
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4) {
-                    callback(xhr.responseText);
-                }
-            }
-    
-            xhr.open('GET', API_URL+url, true);
-            xhr.send();
         },
 
-        mounted() {
-            this.makeGETRequest(`/catalogData.json`, (goods) => {
-            
-                this.goods = JSON.parse(goods);
-                this.filteredGoods = JSON.parse(goods);
-            });
-        }, 
-
-        filterGoods() {
-
+        async fetchGoods() {
+            try {
+                const API_ROOT = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
+                const res = await fetch(`${API_ROOT}/catalogData.json`);
+                const goods = await res.json();
+                this.isError = false;
+                this.goods = goods;
+            } catch (error) {
+                this.isError = true;
+                this.errorText = error.message;
+            }
         }
-        
+    },
+
+    computed: {
+        filteredGoods() {
+            return this.goods.filter((item) => item.product_name.toLowerCase().includes(this.searchLine.toLowerCase()));
+        }
     }
 });
 
-
-
-app.mounted();
+app.fetchGoods();
