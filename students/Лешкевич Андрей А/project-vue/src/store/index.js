@@ -77,6 +77,7 @@ export default createStore({
               star: elem.type[item.type].star,
               color: elem.type[item.type].color,
               size: elem.type[item.type].size,
+              uid: item.id + '/' + item.type
             };
           } else {
             return {
@@ -88,7 +89,8 @@ export default createStore({
               star: 0,
               color: 'Requested on server',
               size: 'Requested on server',
-            };
+              uid: item.id + '/' + item.type
+            }
           }
         });
       return cat;
@@ -112,6 +114,7 @@ export default createStore({
               star: elem.type[item.type].star,
               color: elem.type[item.type].color,
               size: elem.type[item.type].size,
+              uid: item.id + '/' + item.type
             };
           } else {
             return {
@@ -123,6 +126,7 @@ export default createStore({
               star: 0,
               color: 'Requested on server',
               size: 'Requested on server',
+              uid: item.id + '/' + item.type
             };
           }
         });
@@ -149,12 +153,29 @@ export default createStore({
   },
   mutations: {
     UpdateCatalogChashed(state, catalog) {
-      if (catalog.merge !== undefined) {
-        state.CatalogChashed = Object.assign(state.CatalogChashed, catalog.catalog);
-      }
-      else {
-        state.CatalogChashed = catalog;
-      }
+      for (let [ikey, item] of Object.entries(catalog)) {
+        let elem = state.CatalogChashed[ikey] !== undefined ? state.CatalogChashed[ikey] : undefined;
+        if (elem === undefined) {
+          state.CatalogChashed[ikey] = { type: {} };
+          elem = state.CatalogChashed[ikey];
+        } else {
+          for (let tkey of Object.keys(item.type)) {
+            if (elem.type[tkey] === undefined) {
+              elem.type[tkey] = {}
+            }
+          };
+        }
+        elem.name = item.name;
+        for (let [tkey, type] of Object.entries(item.type)) {
+          elem.type[tkey] = {
+            img: type.img,
+            price: type.price,
+            star: type.star,
+            color: type.color,
+            size: type.size,
+          }
+        };
+      };
     },
     UpdateCatalogDisplayedItems(state, displayed) {
       state.CatalogDisplayedItems = displayed;
@@ -204,33 +225,44 @@ export default createStore({
       }
       let json = await response.json();
       if (json.status === 200) {
+        context.dispatch('GetCatalogItems', json.displayed)
         context.commit("UpdateCatalogDisplayedItems", json.displayed);
-        context.dispatch('GetCatalogItems',context.state.CatalogDisplayedItems)
       } else {
         throw Error("Displayed Catalog load error");
       }
     },
     async GetCatalogItems(context, displayed) {
-      console.dir(Object.keys(context.state.CatalogChashed).length)
-      console.dir(context.state.CatalogChashed.constructor)
-      let request = (Object.keys(context.state.CatalogChashed).length === 0
-        && context.state.CatalogChashed.constructor === Object) ? Object.assign(displayed,{empty:true}) :
-        displayed.map((item) => {
+      debugger;
+      let request = [];
+      if (Object.keys(context.state.CatalogChashed).length === 0 && context.state.CatalogChashed.constructor === Object) {
+        request = displayed;
+      } else {
+        request = displayed.reduce(function (result, item) {
           let cat = context.state.CatalogChashed[item.id] !== undefined ? context.state.CatalogChashed[item.id] : undefined;
           if (!cat || cat.type[item.type] === undefined) {
-            return { id: item.id, type: item.type }
+            result.push({ id: item.id, type: item.type });
           }
-        });
-      console.dir(request)
-      let response = await fetch('api/catalog/elements/get/all.json');
-      if (!response.ok) {
-        throw Error(response.statusText);
+          return result;
+        }, []);
       }
-      let json = await response.json();
-      if (json.status === 200) {
-        context.commit("UpdateCatalogChashed", { catalog: json.catalog, merge: true });
-      } else {
-        throw Error("Catalog load error");
+      if (request.length > 0) {
+        let response = await fetch('api/catalog/elements/get', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(request)
+        });
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        let json = await response.json();
+        if (json.status === 200) {
+          context.commit("UpdateCatalogChashed", json.catalog);
+        } else {
+          throw Error("Catalog load error");
+        }
       }
     },
     async GetCart(context) {
@@ -240,8 +272,8 @@ export default createStore({
       }
       let json = await response.json();
       if (json.status === 200) {
+        context.dispatch('GetCatalogItems', json.cart)
         context.commit("UpdateCart", json.cart);
-        context.dispatch('GetCatalogItems',context.state.Cart)
       } else {
         throw Error("Cart load error");
       }

@@ -2,7 +2,7 @@
   <ul id="catalog" class="products-grid_list">
     <li
       v-for="item in $store.getters.CatalogDisplayed"
-      v-bind:key="item.id + '/' + item.type"
+      v-bind:key="item.uid"
       v-bind:data-catalog-item="item.id"
       v-bind:data-catalog-item-t="item.type"
       class="products-grid_item"

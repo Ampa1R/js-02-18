@@ -10,7 +10,7 @@
       <ul class="btn-cart__ddc-list">
         <li
           v-for="item in CartDisplayed"
-          v-bind:key="item.id + '/' + item.type"
+          v-bind:key="item.uid"
           v-bind:data-cart-item="item.id"
           v-bind:data-cart-item-t="item.type"
           class="btn-cart__ddc-item"
@@ -78,10 +78,10 @@
           >
         </div>
         <div class="btn-sqr_bw">          
-          <router-link to="/vue/checkout.html" class="btn-sqr_bw__link"><span class="btn-sqr_bw__text">Checkout</span></router-link>
+          <router-link to="/checkout.html" class="btn-sqr_bw__link"><span class="btn-sqr_bw__text">Checkout</span></router-link>
         </div>
         <div class="btn-sqr_dl">
-          <router-link to="/vue/shopping_cart.html" class="btn-sqr_dl__link">
+          <router-link to="/shopping_cart.html" class="btn-sqr_dl__link">
           <span class="btn-sqr_dl__text">Go to cart</span>
           </router-link>
         </div>

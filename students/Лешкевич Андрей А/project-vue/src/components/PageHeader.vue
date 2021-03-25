@@ -106,7 +106,7 @@
     <nav class="header-nav-wrap wrap">
       <ul class="nav-list">
         <router-link
-          to="/vue/index.html"
+          to="/index.html"
           v-slot="{ href, navigate, isActive, isExactActive }"
           :class="['nav-item','nav-item__active']"
           custom
@@ -126,7 +126,7 @@
         <li class="nav-item">
           <div class="nav-item__hover-wrap">
             <router-link
-              to="/vue/product.html"
+              to="/product.html"
               v-slot="{ href, navigate, isActive, isExactActive }"
               :class="['nav-item','nav-item__active']"
               custom
@@ -281,7 +281,7 @@
         <li class="nav-item">
           <div class="nav-item__hover-wrap">
             <router-link
-              to="/vue/single_page.html"
+              to="/single_page.html"
               v-slot="{ href, navigate, isActive, isExactActive }"
               :class="['nav-item','nav-item__active']"
               custom
@@ -305,7 +305,7 @@
         <li class="nav-item">
           <div class="nav-item__hover-wrap">
             <router-link
-              to="/vue/product.html"
+              to="/product.html"
               v-slot="{ href, navigate, isActive, isExactActive }"
               :class="['nav-item','nav-item__active']"
               custom
@@ -329,7 +329,7 @@
         <li class="nav-item">
           <div class="nav-item__hover-wrap">
             <router-link
-              to="/vue/product.html"
+              to="/product.html"
               v-slot="{ href, navigate, isActive, isExactActive }"
               :class="['nav-item','nav-item__active']"
               custom
@@ -355,7 +355,7 @@
         <li class="nav-item">
           <div class="nav-item__hover-wrap">
             <router-link
-              to="/vue/product.html"
+              to="/product.html"
               v-slot="{ href, navigate, isActive, isExactActive }"
               :class="['nav-item','nav-item__active']"
               custom
@@ -381,7 +381,7 @@
         <li class="nav-item">
           <div class="nav-item__hover-wrap">
             <router-link
-              to="/vue/product.html"
+              to="/product.html"
               v-slot="{ href, navigate, isActive, isExactActive }"
               :class="['nav-item','nav-item__active']"
               custom
