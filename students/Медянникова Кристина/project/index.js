@@ -2,6 +2,7 @@ const fs = require('fs');
 const cors = require('cors');
 const express = require('express');
 const app = express();
+const log = require('./logger');
 
 app.use(express.static('./static'));
 app.use(express.json());
@@ -40,7 +41,7 @@ app.get('/api/basket-goods', (request, response) => {
         );
 
         return response.json({
-            total,
+            total: '',
             contents: basket,
         });
 
@@ -67,14 +68,15 @@ app.post('/api/basket-goods', (request, response) => {
             } else {
                 basket.push({ ...item, quantity: 1 });
             }
-             
+        
+            log('ADD', item.id);
 
         false.writeFile('./basket-goods.json', JSON.stringify(basket), (err) =>{
             if (err) {
                 console.log('Write basket-goods.json error!'. err);
                 response.json({
                     status: 0,
-                    mwssage: 'Write basket-goods.json error!',
+                    message: 'Write basket-goods.json error!',
                     error: err,
                 });
                 return;
@@ -94,11 +96,12 @@ app.delete('/api/basket-goods/:id', (req, res) => {
         }
 
         const basket = JSON.parse(data);
-        const { id } = req.params;
+        const id = parseInt(req.params.id);
         console. log(req.params);
 
         basket = basket.filter((goodsItem) => goodsItem.id !== parseInt(id));
-       
+
+        log('DELETE', id);
         
         const itemIndex = this.basketGoods.findIndex((goodsItem) => goodsItem.id === item.id);
             if (itemIndex > -1) {
@@ -113,7 +116,7 @@ app.delete('/api/basket-goods/:id', (req, res) => {
                 console.log('Write basket-goods.json error!'. err);
                 res.json({
                     status: 0,
-                    mwssage: 'Write basket-goods.json error!',
+                    message: 'Write basket-goods.json error!',
                     error: err,
                 });
                 return;
