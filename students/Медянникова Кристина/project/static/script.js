@@ -15,7 +15,7 @@ const request = (path = '', method = 'GET', body) => {
                     resolve(JSON.parse(xhr.responseText));
                 } else {
                     //отклоняет промис
-                    console.error(xhr.responseText);
+                   // console.error(xhr.responseText);
                     reject(xhr.responseText);
                 }
             }
@@ -110,6 +110,7 @@ new Vue({
         searchValue: '',
         basketGoods: [],
         isVisibleBasket: false,
+        isError: false,
 
     },
     created() {
@@ -138,7 +139,8 @@ new Vue({
                 const goods_list = await res.json();
                 this.goods_list = goods_list;
             } catch (err) {
-                console.log(`Can't fetch data`, error);
+                //console.log(`Can't fetch data`, error);
+                this.isError = true;
                 throw new Error(error);
             }
         },
@@ -150,6 +152,7 @@ new Vue({
                 })
                 .catch((error) => {
                     console.log(`Can't fetch basket data`, error);
+                    this.isError = true;
                 });
         },
         oldAddItem(item) {
