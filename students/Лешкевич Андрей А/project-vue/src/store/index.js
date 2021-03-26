@@ -232,7 +232,6 @@ export default createStore({
       }
     },
     async GetCatalogItems(context, displayed) {
-      debugger;
       let request = [];
       if (Object.keys(context.state.CatalogChashed).length === 0 && context.state.CatalogChashed.constructor === Object) {
         request = displayed;

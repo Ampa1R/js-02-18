@@ -380,7 +380,6 @@ export default {
         border-bottom-width: @bor_th;
         border-left-width: 0;
         border-right-width: 0;
-        float: left;
         border-radius: 0 @bor_rad @bor_rad 0;
         display: inline-block;
 

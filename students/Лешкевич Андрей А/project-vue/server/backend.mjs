@@ -1,15 +1,10 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const http = require('http');
-const static = require('node-static');
-const file = new static.Server('../dist/');
-const fs = require('fs');
-
+import express, { json } from 'express';
+import { readFile } from 'fs';
 const app = express();
-app.use(express.static('../dist/')).use(bodyParser.json());
 
+app.use(express.static('../dist/')).use(json());
 app.post('/api/catalog/elements/get', (req, res) => {
-    fs.readFile('../public/api/catalog/elements/get/all.json', 'utf8', (err, data) => {
+    readFile('../public/api/catalog/elements/get/all.json', 'utf8', (err, data) => {
         const catalog = JSON.parse(data).catalog;
         const requsted = req.body;
         let result = {
@@ -47,6 +42,8 @@ app.post('/api/catalog/elements/get', (req, res) => {
             }
         });
         res.send(result);
+        //setTimeout(() => res.send(result), 2000);
+        
     });
 });
 

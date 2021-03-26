@@ -65,7 +65,7 @@ export default {
     CartAdd(id, type) {
       return this.$store.dispatch("CartAdd", { id: id, type: type });
     },
-  },
+  }
 };
 </script>
 
@@ -120,7 +120,6 @@ export default {
       //padding: 0 16px 0 @pad_hor;
       padding: (floor((@btn_h - @lh)/2) - 2px) 16px
         (floor((@btn_h - @lh)/2) - 2px) @pad_hor;
-      float: left;
       display: inline-block;
     }
 
@@ -130,7 +129,6 @@ export default {
       // padding: 0 @pad_hor 0 16px;
       padding: (floor((@btn_h - 22px)/2) - 2px) @pad_hor
         (floor((@btn_h - 22px)/2) - 2px) 16px;
-      float: left;
       display: inline-block;
     }
 
