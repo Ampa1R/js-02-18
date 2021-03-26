@@ -1,6 +1,6 @@
 'use strict';
 
-const API_ROOT = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
+const API_ROOT = 'https://localhost:3000/api';
 const request = (path = '', method = 'GET', body) => {
      //Объект Promise (промис) используется для отложенных и асинхронных вычислений.
     return new Promise((resolve, reject) => {
@@ -22,6 +22,8 @@ const request = (path = '', method = 'GET', body) => {
         }
         
         xhr.open(method, `${API_ROOT}/${path}`);
+
+        xhr.setRequestHeader('Content-Type', 'application/json');
         
         xhr.send(body);
     });
@@ -47,9 +49,9 @@ Vue.component('v-basket', {
     template: `
          <div class="basket" v-if="isVisibleBasket">
             <div class="basket-item" v-for="item in basketGoods">
-                <h4 class="product-title">{{ item.product_name }}</h4>
+                <h4 class="product-title">{{ item.title}}</h4>
                  <p class="product-price">{{ item.price }}  X {{ item.quantity }}</p>
-            <button @click="deletFromBasket(item.id_product)" class="removeButton">Убрать из корзины</button>
+            <button @click="deletFromBasket(item.id)" class="removeButton">Убрать из корзины</button>
         </div>
             <p class="total_amount">Сумма корзины:<b>{{ total }}</b></p> 
         </div> 
@@ -80,7 +82,7 @@ Vue.component('item', {
     props: ['item'],
     template: `
         <div class="item">
-            <h2 class="product-title">{{ item.product_name }}</h2>
+            <h2 class="product-title">{{ item.title }}</h2>
             <p class="product-price">{{ item.price }} $</p>
             <button class="by-btn" name="add-to-basket" v-on:click.prevent="$emit('add', item)">В корзину</button>
         </div>
@@ -118,7 +120,7 @@ new Vue({
         filteredGoods() {
             const regexp = new RegExp(this.searchValue, 'i');
             return this.goods_list.filter((goodsItem) => 
-                regexp.test(goodsItem.product_name)
+                regexp.test(goodsItem.title)
             );
         },
         total() {
@@ -132,7 +134,7 @@ new Vue({
     methods: {
         async fetchGoods() {
             try {
-                const res = await fetch(`${API_ROOT}/catalogData.json`);
+                const res = await fetch(`${API_ROOT}/goods`);
                 const goods_list = await res.json();
                 this.goods_list = goods_list;
             } catch (err) {
@@ -141,7 +143,7 @@ new Vue({
             }
         },
         fetchBasket() {
-            request('getBasket.json')
+            request('basket-goods')
                 .then((goods_list) => {
                     this.basketGoods = goods_list.contents;
                     console.log('basket', this.basketGoods);
@@ -150,11 +152,11 @@ new Vue({
                     console.log(`Can't fetch basket data`, error);
                 });
         },
-        addItem(item) {
-            request('addToBasket.json')
+        oldAddItem(item) {
+            request('basket-goods', 'POST', JSON.stringify(item))
                 .then((response) => {
                     if (response.result !== 0) {
-                        const itemIndex = this.basketGoods.findIndex((goodsItem) => goodsItem.id_product === item.id_product);
+                        const itemIndex = this.basketGoods.findIndex((goodsItem) => goodsItem.id === item.id);
                         if (itemIndex > -1) {
                             this.basketGoods[itemIndex].quantity += 1;
                         } else {
@@ -166,16 +168,53 @@ new Vue({
                     }
                 })
         },
-        removeItem(id) {
+        addItem(item) {
+            fetch(`${API_ROOT}/basket-goods`, {
+                method: 'POST',
+                body: JSON.stringify(item),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+
+            })
+                .then((response) => {
+                    if (response.result !== 0) {
+                        const itemIndex = this.basketGoods.findIndex((goodsItem) => goodsItem.id === item.id);
+                        if (itemIndex > -1) {
+                            this.basketGoods[itemIndex].quantity += 1;
+                        } else {
+                            this.basketGoods.push({ ...item, quantity: 1 });
+                        }
+                        console.log(this.basketGoods);
+                    } else {
+                        console.error(`Can't add item to basket`, item, this.basketGoods);
+                    }
+                })
+        },
+        oldRemoveItem(id) {
             request('deleteFromBasket.json')
                 .then((response) => {
                     if (response.result !== 0) {
-                        this.basketGoods = this.basketGoods.filter((goodsItem) => goodsItem.id_product !== parseInt(id));
+                        this.basketGoods = this.basketGoods.filter((goodsItem) => goodsItem.id !== parseInt(id));
                         console.log(this.basketGoods);
                     } else {
                         console.error(`Can't remove item from basket`, item, this.basketGoods);
                     }
                 });
+        },
+        async removeItem(id) {
+
+            const rawResponse = await fetch(`${API_ROOT}/basket-goods/${id}`, {
+                method: 'DELETE',
+            });
+            const response = await res.json();
+
+            if (response.result !== 0) {
+                this.basketGoods = this.basketGoods.filter((goodsItem) => goodsItem.id !== parseInt(id));
+                console.log(this.basketGoods);
+            } else {
+                console.error(`Can't remove item from basket`, item, this.basketGoods);
+            }
         }
     },
 });

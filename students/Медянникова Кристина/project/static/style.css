@@ -117,10 +117,18 @@
     left: 45%;
     font-size: 25px;
 }
-.total--amount{
+.total-basket{
     font-family: Lato;
     font-size: 13px;
     line-height: 1.2;
     font-weight: 400;
     text-transform: uppercase;
+}
+.error{
+    font-family: Lato;
+    font-size: 13px;
+    line-height: 1.2;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: brown;
 }
