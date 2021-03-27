@@ -15,7 +15,7 @@ const request = (path = '', method = 'GET', body) => {
                     resolve(JSON.parse(xhr.responseText));
                 } else {
                     //отклоняет промис
-                   // console.error(xhr.responseText);
+                    //console.error(xhr.responseText);
                     reject(xhr.responseText);
                 }
             }
@@ -25,18 +25,53 @@ const request = (path = '', method = 'GET', body) => {
 
         xhr.setRequestHeader('Content-Type', 'application/json');
         
-        xhr.send(body);
+        //xhr.send(body);
     });
 }
 
+Vue.component('goods-list', {
+    props: ['filteredGoods'],
+    template: `
+        <section class="goods">
+            <goods-item
+                v-for="item in filteredGoods"
+                v-bind:key="item.id"
+                v-bind:item="item"
+                v-on:add="$emit('add-item', $event)"
+            />
+            <goods-empty v-if="filteredGoods.length === 0" /> 
+        </section>
+    `,
+   /*methods: {
+         handleAddItem(item) {
+            this.$emit('add-item', item);
+         }
+    }*/
+});
+
+Vue.component('goods-item', {
+    props: ['item'],
+    template: `
+        <div class="item">
+            <h2 class="product-title">{{ item.title }}</h2>
+            <p class="product-price">{{ item.price }} $</p>
+            <button class="by-btn" name="add-to-basket" v-on:click.prevent="$emit('add', item)">В корзину</button>
+        </div>
+    `,
+     /*methods: {
+         handleAdd() {
+             this.$emit('add', this.item);
+         }
+     }*/
+});
 
 Vue.component('search', {
     props: ['searchValue'],
     template: `
-    <input type="text" class="search" 
-        v-bind:searchValue="searchValue"
-        v-on:input="$emit('input', $event.target.value)">
-    `,
+        <input type="text" class="search" 
+            v-bind:searchValue="searchValue"
+            v-on:input="$emit('input', $event.target.value)">
+        `,
     methods: {
         handleAddItem(event) {
             this.$emit('change', event.target.searchValue);
@@ -45,7 +80,7 @@ Vue.component('search', {
 });
 
 Vue.component('v-basket', {
-    props: ['basketGoods', 'total-amount', 'isVisibleBasket'],
+    props: ['basketGoods', 'total', 'isVisibleBasket'],
     template: `
          <div class="basket" v-if="isVisibleBasket">
             <div class="basket-item" v-for="item in basketGoods">
@@ -59,46 +94,17 @@ Vue.component('v-basket', {
 });
 
 
-Vue.component('goods', {
-    props: ['filteredGoods'],
+Vue.component('goods-empty', {
     template: `
-        <section class="goods_list">
-            <item
-                v-for="item in filteredGoods"
-                v-bind:item="item"
-                v-on:add="$emit('add-item', $event)"
-            />
-            <there-data v-if="filteredGoods.length === 0" /> 
-        </section>
-    `,
-   methods: {
-         handleAddItem(item) {
-            this.$emit('add-item', item);
-         }
-    }
-});
-
-Vue.component('item', {
-    props: ['item'],
-    template: `
-        <div class="item">
-            <h2 class="product-title">{{ item.title }}</h2>
-            <p class="product-price">{{ item.price }} $</p>
-            <button class="by-btn" name="add-to-basket" v-on:click.prevent="$emit('add', item)">В корзину</button>
+        <div class="goods--empty">
+            Нет товаров
         </div>
     `,
-     methods: {
-         handleAdd() {
-             this.$emit('add', this.item);
-         }
-     }
 });
 
-Vue.component('there-data', {
+Vue.component('v-error', {
     template: `
-        <div class="there--data">
-            Нет данных
-        </div>
+        <div class="error">Что-то пошло не так</div>
     `,
 });
 
@@ -106,12 +112,11 @@ Vue.component('there-data', {
 new Vue({
     el: '#app',
     data: {
-        goods_list: [],
+        goods: [],
         searchValue: '',
         basketGoods: [],
         isVisibleBasket: false,
         isError: false,
-
     },
     created() {
         this.fetchGoods();
@@ -120,7 +125,7 @@ new Vue({
     computed: {
         filteredGoods() {
             const regexp = new RegExp(this.searchValue, 'i');
-            return this.goods_list.filter((goodsItem) => 
+            return this.goods.filter((goodsItem) => 
                 regexp.test(goodsItem.title)
             );
         },
@@ -135,19 +140,19 @@ new Vue({
     methods: {
         async fetchGoods() {
             try {
-                const res = await fetch(`${API_ROOT}/goods`);
-                const goods_list = await res.json();
-                this.goods_list = goods_list;
+                const res = await fetchGoods(`${API_ROOT}/goods`);
+                const goods = await res.json();
+                this.goods = goods;
             } catch (err) {
-                //console.log(`Can't fetch data`, error);
+                //console.log(`Can't fetch data`);
                 this.isError = true;
-                throw new Error(error);
+                //throw new Error(error);
             }
         },
         fetchBasket() {
             request('basket-goods')
-                .then((goods_list) => {
-                    this.basketGoods = goods_list.contents;
+                .then((goods) => {
+                    this.basketGoods = goods.contents;
                     console.log('basket', this.basketGoods);
                 })
                 .catch((error) => {
@@ -206,18 +211,17 @@ new Vue({
                 });
         },
         async removeItem(id) {
-
             const rawResponse = await fetch(`${API_ROOT}/basket-goods/${id}`, {
                 method: 'DELETE',
             });
-            const response = await res.json();
+                const response = await res.json();
 
-            if (response.result !== 0) {
-                this.basketGoods = this.basketGoods.filter((goodsItem) => goodsItem.id !== parseInt(id));
-                console.log(this.basketGoods);
-            } else {
-                console.error(`Can't remove item from basket`, item, this.basketGoods);
-            }
+                if (response.result !== 0) {
+                    this.basketGoods = this.basketGoods.filter((goodsItem) => goodsItem.id !== parseInt(id));
+                    console.log(this.basketGoods);
+                } else {
+                    console.error(`Can't remove item from basket`, item, this.basketGoods);
+                }
         }
     },
 });

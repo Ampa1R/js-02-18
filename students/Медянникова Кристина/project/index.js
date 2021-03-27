@@ -17,8 +17,8 @@ app.get('/api/goods', (request, response) => {
             return;
         }
 
-        const goods = JSON.parse(data);
-        console.log(goods);
+        //const goods = JSON.parse(data);
+        //console.log(goods);
         return response.send(data);
 
     });
@@ -35,13 +35,10 @@ app.get('/api/basket-goods', (request, response) => {
 
         const basket = JSON.parse(data);
         const total = basket.reduce(
-            (accumulator, currentElement) => 
-                accumulator + (currentElement.price * currentElement.quantity),
-            0
-        );
+            (accumulator, currentElement) => accumulator + (currentElement.price * currentElement.quantity), 0);
 
         return response.json({
-            total: '',
+            total,
             contents: basket,
         });
 
@@ -60,18 +57,18 @@ app.post('/api/basket-goods', (request, response) => {
         const basket = JSON.parse(data);
         const item = request.body;
         console. log(request.body);
-       
+        //basket.push(item);
         
-        const itemIndex = this.basketGoods.findIndex((goodsItem) => goodsItem.id === item.id);
+        /*const itemIndex = this.basketGoods.findIndex((goodsItem) => goodsItem.id === item.id);
             if (itemIndex > -1) {
                 basket[itemIndex].quantity += 1;
             } else {
                 basket.push({ ...item, quantity: 1 });
-            }
+            }*/
         
             log('ADD', item.id);
 
-        false.writeFile('./basket-goods.json', JSON.stringify(basket), (err) =>{
+        fs.writeFile('./basket-goods.json', JSON.stringify(basket), (err) =>{
             if (err) {
                 console.log('Write basket-goods.json error!'. err);
                 response.json({
@@ -87,7 +84,9 @@ app.post('/api/basket-goods', (request, response) => {
     });
 });
 
-app.delete('/api/basket-goods/:id', (req, res) => {
+app.delete('/api/basket-goods/:id', (request, response) => {
+
+    console.log('/basket-goods POST route remove handler', request.ip);
     fs.readFile('./basket-goods.json', 'utf-8', (err, data) => {
         if (err) {
             console.log('Read basket-goods.json error!'. err);
@@ -96,8 +95,17 @@ app.delete('/api/basket-goods/:id', (req, res) => {
         }
 
         const basket = JSON.parse(data);
-        const id = parseInt(req.params.id);
-        console. log(req.params);
+        //const id = parseInt(req.params.id);
+        let index = basket.findIndex((goodsItem) => goodsItem.id === request.body.id);
+        //console. log(req.params);
+        console.log("before delete");
+        console.log(basket);
+
+        console.log(`index = ${index}`);
+        if (index >= 0)
+            basket.splice(index, 1);
+        console.log("after delete");
+        console.log(basket);
 
         basket = basket.filter((goodsItem) => goodsItem.id !== parseInt(id));
 
@@ -111,18 +119,18 @@ app.delete('/api/basket-goods/:id', (req, res) => {
             }
              
 
-        false.writeFile('./basket-goods.json', JSON.stringify(basket), (err) =>{
+        fs.writeFile('./basket-goods.json', JSON.stringify(basket), (err) =>{
             if (err) {
                 console.log('Write basket-goods.json error!'. err);
-                res.json({
+                response.json({
                     status: 0,
                     message: 'Write basket-goods.json error!',
                     error: err,
                 });
                 return;
             }
-            res.json({status: 1});
-        })
+            response.json({ status: 1});
+        })   
     });
 });
 
