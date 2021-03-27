@@ -16,7 +16,7 @@
           <div class="btn-sqr_adcw">
             <a
               @click.prevent="CartAdd(item.id, item.type)"
-              v-bind:href="'cart/add/' + item.id + '/' + item.type"
+              v-bind:href="'api/cart/item/add/' + item.id + '/' + item.type"
               class="btn-sqr_adcw__link clear-fix"
               name="btn-add-item"
             >
@@ -40,7 +40,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 export default {
   name: "ProductList",
   methods: {

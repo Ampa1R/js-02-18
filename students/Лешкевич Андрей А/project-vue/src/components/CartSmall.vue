@@ -48,21 +48,21 @@
           <div class="col">
             <a
               @click.prevent="CartInc(item.id, item.type)"
-              v-bind:href="'cart/inc/' + item.id + '/' + item.type"
+              v-bind:href="'api/cart/item/inc/' + item.id + '/' + item.type"
               name="btn-inc-item"
             >
               <i class="fas fa-plus-circle"></i>
             </a>
             <a
               @click.prevent="CartDel(item.id, item.type)"
-              v-bind:href="'cart/del/' + item.id + '/' + item.type"
+              v-bind:href="'api/cart/item/del/' + item.id + '/' + item.type"
               name="btn-del-item"
             >
               <i class="fa fa-times-circle"></i>
             </a>
             <a
               @click.prevent="CartDec(item.id, item.type)"
-              v-bind:href="'cart/dec/' + item.id + '/' + item.type"
+              v-bind:href="'api/cart/item/dec/' + item.id + '/' + item.type"
               name="btn-dec-item"
             >
               <i class="fas fa-minus-circle"></i>

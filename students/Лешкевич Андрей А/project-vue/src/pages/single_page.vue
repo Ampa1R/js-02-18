@@ -163,6 +163,14 @@ export default {
       return this.$store.dispatch("SliderRight");
     }
   },
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      vm.$store.dispatch(
+        "GetCatalogDisplayedItems",
+        "api/catalog/displayed/get/4"
+      );
+    });
+  },
 };
 </script>
 

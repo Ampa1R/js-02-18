@@ -5,5 +5,5 @@ import store from '@/store'
 
 createApp(App).use(store).use(router).mount('#app')
 //store.dispatch("GetCatalogChashed");
-store.dispatch("GetCatalogDisplayedItems");
+//store.dispatch("GetCatalogDisplayedItems");
 store.dispatch("GetCart");

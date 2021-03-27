@@ -55,7 +55,7 @@
           <div class="table-line-item table-line-item-act">
             <a
               @click.prevent="CartDel(item.id, item.type)"
-              v-bind:href="'cart/del/' + item.id + '/' + item.type"
+              v-bind:href="'api/cart/item/del/' + item.id + '/' + item.type"
               name="btn-del-item"
               ><i class="fa fa-times-circle"></i
             ></a>
@@ -65,7 +65,7 @@
       <div class="table-footer table-line">
         <div class="col">
           <div class="btn-sqr_dl">
-            <a href="#" @click.prevent="CartClean()" class="btn-sqr_dl__link"
+            <a href="api/cart/clean" @click.prevent="CartClean()" class="btn-sqr_dl__link"
               ><span class="btn-sqr_dl__text">cLEAR SHOPPING CART</span></a
             >
           </div>
@@ -125,7 +125,7 @@ export default {
       });
     },
     CartClean() {
-      return this.$store.commit("CartClean");
+      return this.$store.dispatch("CartClean");
     },
   },
   computed: {

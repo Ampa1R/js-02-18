@@ -340,6 +340,14 @@ export default {
     PageTopRibbon,
     ProductsList,
   },
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      vm.$store.dispatch(
+        "GetCatalogDisplayedItems",
+        "api/catalog/displayed/get/9"
+      );
+    });
+  },
 };
 </script>
 

@@ -218,8 +218,8 @@ export default createStore({
         throw Error("Catalog load error");
       }
     },
-    async GetCatalogDisplayedItems(context) {
-      let response = await fetch(getURLs().CatalogDisplayed);
+    async GetCatalogDisplayedItems(context, url) {
+      let response = await fetch(url);
       if (!response.ok) {
         throw Error(response.statusText);
       }
@@ -265,7 +265,7 @@ export default createStore({
       }
     },
     async GetCart(context) {
-      let response = await fetch(getURLs().Cart);
+      let response = await fetch('api/cart/get');
       if (!response.ok) {
         throw Error(response.statusText);
       }
@@ -277,69 +277,146 @@ export default createStore({
         throw Error("Cart load error");
       }
     },
-    CartInc(context, item) {
-      return new Promise((resolve, reject) => {
-        let index = context.state.Cart.value.findIndex(obj => { return (obj.id === item.id && obj.type === item.type) });
-        if (index !== -1) {
-          context.commit('CartInc', index);
-          resolve();
-        } else {
-          reject();
-        }
-      })
-    },
-    CartDec(context, item) {
-      return new Promise((resolve, reject) => {
-        let index = context.state.Cart.value.findIndex(obj => { return (obj.id === item.id && obj.type === item.type) });
-        if (index !== -1) {
-          if (1 < context.state.Cart.value[index].quantity) {
-            context.commit('CartDec', index);
+    async CartInc(context, item) {
+
+      let response = await fetch('/api/cart/item/inc/' + item.id + '/' + item.type);
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+      let json = await response.json();
+      if (json.status === 200) {
+        /*return new Promise((resolve, reject) => {
+          let index = context.state.Cart.findIndex(obj => { return (obj.id === item.id && obj.type === item.type) });
+          if (index !== -1) {
+            context.commit('CartInc', index);
+            resolve();
           } else {
-            context.commit('CartDel', index);
+            reject();
           }
-          resolve();
-        } else {
-          reject();
-        }
-      })
+        })*/
+        return new Promise((resolve, reject) => { context.commit("UpdateCart", json.cart); })
+      } else {
+        throw Error("Cart inc error");
+      }
+
     },
-    CartDel(context, item) {
-      return new Promise((resolve, reject) => {
-        let index = context.state.Cart.value.findIndex(obj => { return (obj.id === item.id && obj.type === item.type) });
-        if (index !== -1) {
-          context.commit('CartDel', index);
-          resolve();
-        } else {
-          reject();
-        }
-      })
+    async CartDec(context, item) {
+
+      let response = await fetch('/api/cart/item/dec/' + item.id + '/' + item.type);
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+      let json = await response.json();
+      if (json.status === 200) {
+        /*  return new Promise((resolve, reject) => {
+           let index = context.state.Cart.findIndex(obj => { return (obj.id === item.id && obj.type === item.type) });
+           if (index !== -1) {
+             if (1 < context.state.Cart[index].quantity) {
+               context.commit('CartDec', index);
+             } else {
+               context.commit('CartDel', index);
+             }
+             resolve();
+           } else {
+             reject();
+           }
+         }) */
+        return new Promise((resolve, reject) => { context.commit("UpdateCart", json.cart); })
+      } else {
+        throw Error("Cart dec error");
+      }
+
     },
-    CartAdd(context, item) {
-      return new Promise((resolve, reject) => {
-        context.dispatch('CartInc', item).catch(() => {
-          context.commit('CartAdd', {
-            "id": item.id,
-            "type": item.type,
-            "quantity": 1
-          });
-          resolve();
-        })
-      })
-    },
-    CartSet(context, item) {
-      return new Promise((resolve, reject) => {
-        let index = context.state.Cart.value.findIndex(obj => { return (obj.id === item.id && obj.type === item.type) });
-        if (index !== -1) {
-          if (item.quantity > 0) {
-            context.commit('CartSet', { index: index, quantity: item.quantity });
+    async CartDel(context, item) {
+
+      let response = await fetch('/api/cart/item/del/' + item.id + '/' + item.type);
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+      let json = await response.json();
+      if (json.status === 200) {
+        /* return new Promise((resolve, reject) => {
+          let index = context.state.Cart.findIndex(obj => { return (obj.id === item.id && obj.type === item.type) });
+          if (index !== -1) {
+            context.commit('CartDel', index);
+            resolve();
           } else {
-            context.commit('CartDel', index);
+            reject();
           }
+        }) */
+        return new Promise((resolve, reject) => { context.commit("UpdateCart", json.cart); })
+      } else {
+        throw Error("Cart del error");
+      }
+
+    },
+    async CartAdd(context, item) {
+
+      let response = await fetch('/api/cart/item/add/' + item.id + '/' + item.type);
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+      let json = await response.json();
+      if (json.status === 200) {
+        /* return new Promise((resolve, reject) => {
+          context.dispatch('CartInc', item).catch(() => {
+            context.commit('CartAdd', {
+              "id": item.id,
+              "type": item.type,
+              "quantity": 1
+            });
+            resolve();
+          })
+        }) */
+        return new Promise((resolve, reject) => { context.commit("UpdateCart", json.cart); })
+      } else {
+        throw Error("Cart add error");
+      }
+
+    },
+    async CartSet(context, item) {
+
+      let response = await fetch('/api/cart/item/set/' + item.id + '/' + item.type + '/' + item.quantity);
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+      let json = await response.json();
+      if (json.status === 200) {
+        /* return new Promise((resolve, reject) => {
+          let index = context.state.Cart.findIndex(obj => { return (obj.id === item.id && obj.type === item.type) });
+          if (index !== -1) {
+            if (item.quantity > 0) {
+              context.commit('CartSet', { index: index, quantity: item.quantity });
+            } else {
+              context.commit('CartDel', index);
+            }
+            resolve();
+          } else {
+            reject();
+          }
+        }) */
+        return new Promise((resolve, reject) => { context.commit("UpdateCart", json.cart); })
+      } else {
+        throw Error("Cart set error");
+      }
+
+    },
+    async CartClean(context, item) {
+
+      let response = await fetch('/api/cart/clean');
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+      let json = await response.json();
+      if (json.status === 200) {
+        return new Promise((resolve, reject) => {
+          context.commit('CartClean');
           resolve();
-        } else {
-          reject();
-        }
-      })
+        });
+      } else {
+        throw Error("Cart set error");
+      }
+
     },
     SliderLeft(context) {
       if (0 < context.state.Slider.index) {
@@ -347,7 +424,7 @@ export default createStore({
       }
     },
     SliderRight(context) {
-      if (context.state.Slider.index < (context.state.Slider.value.length - 1)) {
+      if (context.state.Slider.index < (context.state.Slider.length - 1)) {
         context.commit('SetSliderIndex', context.state.Slider.index + 1);
       }
     }

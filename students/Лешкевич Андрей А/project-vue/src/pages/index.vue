@@ -38,32 +38,13 @@ export default {
     ProductsList,
     PageFeature,
   },
-  beforeRouteEnter (to, from, next) {
-    // called before the route that renders this component is confirmed.
-    // does NOT have access to `this` component instance,
-    // because it has not been created yet when this guard is called!
-        console.log("route to beforeRouteEnter index "+to);
-        console.dir(to)
-        next()
-  },
-  beforeRouteUpdate (to, from, next) {
-    // called when the route that renders this component has changed.
-    // This component being reused (by using an explicit `key`) in the new route or not doesn't change anything.
-    // For example, for a route with dynamic params `/foo/:id`, when we
-    // navigate between `/foo/1` and `/foo/2`, the same `Foo` component instance
-    // will be reused (unless you provided a `key` to `<router-view>`), and this hook will be called when that happens.
-    // has access to `this` component instance.
-        console.log("route to beforeRouteUpdate index "+to);
-        console.dir(to)
-        next()
-  },
-  beforeRouteLeave (to, from, next) {
-    // called when the route that renders this component is about to
-    // be navigated away from.
-    // has access to `this` component instance.
-        console.log("route to beforeRouteLeave index"+to);
-        console.dir(to)
-        next()
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      vm.$store.dispatch(
+        "GetCatalogDisplayedItems",
+        "api/catalog/displayed/get/8"
+      );
+    });
   },
 };
 </script>
