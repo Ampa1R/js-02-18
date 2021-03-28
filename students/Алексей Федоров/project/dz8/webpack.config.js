@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack')
+const webpack = require('webpack');
 const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 /*
 module.exports = {
     entry: './src/script.js',
@@ -59,8 +60,9 @@ module.exports = {
         {
             test: /\.css$/,
             use: [
-            'vue-style-loader',
-            'css-loader'
+                MiniCssExtractPlugin.loader,
+                'vue-style-loader',
+                'css-loader'
             ]
         }
         ]
@@ -70,7 +72,9 @@ module.exports = {
         // убедитесь что подключили плагин!
         new VueLoaderPlugin(),
         //new webpack.HotModuleReplacementPlugin(),
-       
+        new MiniCssExtractPlugin({
+            filename: 'styles.css'
+        })
     ],
     resolve: {
         extensions: ['vue'],
