@@ -22,3 +22,4 @@ async function log(type, productId){
 
 module.exports = log;
 
+ 

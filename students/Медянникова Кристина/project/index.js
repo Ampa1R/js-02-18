@@ -17,8 +17,6 @@ app.get('/api/goods', (request, response) => {
             return;
         }
 
-        //const goods = JSON.parse(data);
-        //console.log(goods);
         return response.send(data);
 
     });
@@ -34,8 +32,7 @@ app.get('/api/basket-goods', (request, response) => {
         }
 
         const basket = JSON.parse(data);
-        const total = basket.reduce(
-            (accumulator, currentElement) => accumulator + (currentElement.price * currentElement.quantity), 0);
+        const total = basket.reduce((accumulator, currentElement) => accumulator + (currentElement.price * currentElement.quantity), 0);
 
         return response.json({
             total,
@@ -57,25 +54,24 @@ app.post('/api/basket-goods', (request, response) => {
         const basket = JSON.parse(data);
         const item = request.body;
         console. log(request.body);
-        //basket.push(item);
-        
-        /*const itemIndex = this.basketGoods.findIndex((goodsItem) => goodsItem.id === item.id);
+       
+        const itemIndex = basket.findIndex((goodsItem) => goodsItem.id === item.id);
             if (itemIndex > -1) {
                 basket[itemIndex].quantity += 1;
             } else {
                 basket.push({ ...item, quantity: 1 });
-            }*/
+            }
         
-            log('ADD', item.id);
+    log('ADD', item.id);
 
-        fs.writeFile('./basket-goods.json', JSON.stringify(basket), (err) =>{
-            if (err) {
-                console.log('Write basket-goods.json error!'. err);
-                response.json({
-                    status: 0,
-                    message: 'Write basket-goods.json error!',
-                    error: err,
-                });
+    fs.writeFile('./basket-goods.json', JSON.stringify(basket), (err) =>{
+        if (err) {
+            console.log('Write basket-goods.json error!'. err);
+            response.json({
+                status: 0,
+                message: 'Write basket-goods.json error!',
+                error: err,
+            });
                 return;
             }
             response.json({status: 1});
@@ -84,9 +80,8 @@ app.post('/api/basket-goods', (request, response) => {
     });
 });
 
-app.delete('/api/basket-goods/:id', (request, response) => {
+app.delete('/api/basket-goods/:id', (request, response) => {    
 
-    console.log('/basket-goods POST route remove handler', request.ip);
     fs.readFile('./basket-goods.json', 'utf-8', (err, data) => {
         if (err) {
             console.log('Read basket-goods.json error!'. err);
@@ -94,39 +89,22 @@ app.delete('/api/basket-goods/:id', (request, response) => {
             return;
         }
 
-        const basket = JSON.parse(data);
-        //const id = parseInt(req.params.id);
-        let index = basket.findIndex((goodsItem) => goodsItem.id === request.body.id);
-        //console. log(req.params);
-        console.log("before delete");
-        console.log(basket);
-
-        console.log(`index = ${index}`);
-        if (index >= 0)
-            basket.splice(index, 1);
-        console.log("after delete");
-        console.log(basket);
-
+            let basket = JSON.parse(data);
+            const id = parseInt(req.params.id);
+            console. log(req.params);
+        
         basket = basket.filter((goodsItem) => goodsItem.id !== parseInt(id));
 
-        log('DELETE', id);
-        
-        const itemIndex = this.basketGoods.findIndex((goodsItem) => goodsItem.id === item.id);
-            if (itemIndex > -1) {
-                basket[itemIndex].quantity += 1;
-            } else {
-                basket.push({ ...item, quantity: 1 });
-            }
-             
+    log('DELETE', id);
 
-        fs.writeFile('./basket-goods.json', JSON.stringify(basket), (err) =>{
-            if (err) {
-                console.log('Write basket-goods.json error!'. err);
-                response.json({
-                    status: 0,
-                    message: 'Write basket-goods.json error!',
-                    error: err,
-                });
+    fs.writeFile('./basket-goods.json', JSON.stringify(basket), (err) =>{
+        if (err) {
+            console.log('Write basket-goods.json error!'. err);
+            response.json({
+                status: 0,
+                message: 'Write basket-goods.json error!',
+                error: err,
+            });
                 return;
             }
             response.json({ status: 1});

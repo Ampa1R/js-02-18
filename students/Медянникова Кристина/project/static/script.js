@@ -1,6 +1,13 @@
 'use strict';
 
-const API_ROOT = 'https://localhost:3000/api';
+import error from './components/error.vue'
+import basket from './components/basket.vue'
+import goodsempty from './components/empty.vue'
+import goodsitem from './components/item.vue'
+import goodssearch from './components/Search.vue'
+import goodslist from './components/goodslist.vue'
+
+const API_ROOT = 'http://localhost:3000/api';
 const request = (path = '', method = 'GET', body) => {
      //Объект Promise (промис) используется для отложенных и асинхронных вычислений.
     return new Promise((resolve, reject) => {
@@ -15,7 +22,7 @@ const request = (path = '', method = 'GET', body) => {
                     resolve(JSON.parse(xhr.responseText));
                 } else {
                     //отклоняет промис
-                    //console.error(xhr.responseText);
+                    console.error(xhr.responseText);
                     reject(xhr.responseText);
                 }
             }
@@ -25,11 +32,11 @@ const request = (path = '', method = 'GET', body) => {
 
         xhr.setRequestHeader('Content-Type', 'application/json');
         
-        //xhr.send(body);
+        xhr.send(body);
     });
 }
 
-Vue.component('goods-list', {
+/*Vue.component('goods-list', {
     props: ['filteredGoods'],
     template: `
         <section class="goods">
@@ -42,11 +49,11 @@ Vue.component('goods-list', {
             <goods-empty v-if="filteredGoods.length === 0" /> 
         </section>
     `,
-   /*methods: {
+   methods: {
          handleAddItem(item) {
             this.$emit('add-item', item);
          }
-    }*/
+    }
 });
 
 Vue.component('goods-item', {
@@ -58,11 +65,11 @@ Vue.component('goods-item', {
             <button class="by-btn" name="add-to-basket" v-on:click.prevent="$emit('add', item)">В корзину</button>
         </div>
     `,
-     /*methods: {
+     methods: {
          handleAdd() {
              this.$emit('add', this.item);
          }
-     }*/
+     }
 });
 
 Vue.component('search', {
@@ -88,7 +95,7 @@ Vue.component('v-basket', {
                  <p class="product-price">{{ item.price }}  X {{ item.quantity }}</p>
             <button @click="deletFromBasket(item.id)" class="removeButton">Убрать из корзины</button>
         </div>
-            <p class="total_amount">Сумма корзины:<b>{{ total }}</b></p> 
+            <p class="сalcTotal">Сумма корзины:<b>{{ total }}</b></p> 
         </div> 
     `
 });
@@ -106,7 +113,7 @@ Vue.component('v-error', {
     template: `
         <div class="error">Что-то пошло не так</div>
     `,
-});
+});*/
 
 
 new Vue({
@@ -130,23 +137,21 @@ new Vue({
             );
         },
         total() {
-            return this.basketGoods.reduce(
-                (accumulator, currentElement) => 
-                    accumulator + (currentElement.price * currentElement.quantity),
-                0
-            );
-        }
+            return this.basketGoods.reduce((accumulator, currentElement) =>
+                accumulator + (currentElement.price * currentElement.quantity)
+            , 0)  
+        },
     },
     methods: {
         async fetchGoods() {
             try {
-                const res = await fetchGoods(`${API_ROOT}/goods`);
+                const res = await fetch(`${API_ROOT}/goods`);
                 const goods = await res.json();
                 this.goods = goods;
             } catch (err) {
-                //console.log(`Can't fetch data`);
+                console.log(`Can't fetch data`, error);
                 this.isError = true;
-                //throw new Error(error);
+                throw new Error(error);
             }
         },
         fetchBasket() {
@@ -224,4 +229,12 @@ new Vue({
                 }
         }
     },
+    components: {
+        error,
+        basket,
+        goodsempty,
+        goodsitem,
+        goodslist,
+        goodssearch,
+    }
 });

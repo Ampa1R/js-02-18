@@ -16,25 +16,25 @@
      <header class="header">
         <div class="logo">ShoppingCart</div>
         <form action="#" class="search"  placeholder="Ведите название товара" >
-            <search v-model="searchValue" id="search"></search>
+            <goodssearch v-model="searchValue" v-on:input="searchValue = $event" id="search"></goodssearch>
         </form>
         <button class="basket-button" type="button" @click="isVisibleBasket = !isVisibleBasket "> Корзина</button>
 
-        <v-basket
+        <basket
             :is-visible-basket="isVisibleBasket"
             :goods="basketGoods"
             :total="total"
             @remove-item="removeItem"
-        ></v-basket>
+        ></basket>
      </header>
 
      <main>
-        <goods-list
+        <goodslist
             v-if="!isError"
             v-bind:filtered-goods="filteredGoods"
             v-on:add-item="addItem"
-        ></goods-list>
-        <v-error v-else></v-error>
+        ></goodslist>
+        <error v-else></error>
     </main>
 
     </div>

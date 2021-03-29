@@ -2,8 +2,7 @@
     {
         "id":50000,
         "title":"Монитор",
-        "price":50000,
-        "quantity":3
+        "price":50000,"quantity":3
     },
     {
         "id":1500,
@@ -15,7 +14,7 @@
         "id":700,
         "title":"Мышь",
         "price":700,
-        "quantity":2
+        "quantity":11
     },
     {
         "id":3500,
@@ -24,4 +23,3 @@
         "quantity":4
     }
 ]
- 
