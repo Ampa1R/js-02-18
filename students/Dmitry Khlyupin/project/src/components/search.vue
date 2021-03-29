@@ -1,10 +1,10 @@
 <template>
     <div class="searchContainer">
-        <input type="text" class="goods-search" v-model="this.sline" />
+        <input type="text" class="goods-search" v-model="sline" />
         <button
             class="search-button"
             type="button"
-            @click="$emit('start-search', this.sline)"
+            @click="$emit('start-search', sline)"
             >
             Искать
         </button>
