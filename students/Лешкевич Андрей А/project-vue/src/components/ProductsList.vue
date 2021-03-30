@@ -8,7 +8,7 @@
       class="products-grid_item"
     >
       <div class="top-block">
-        <!--<img v-bind:src="item.img" alt="">-->
+        <!--<img v-bind:src="item.img" alt="" class="visible">-->
         <div class="visible progressive replace" v-bind:data-href="item.img">
           <img src="@/assets/img/tiny.a1.07.jpg" class="preview" alt="image" />
         </div>

@@ -39,5 +39,23 @@ const router = createRouter({
     }
   ]
 })
+router.beforeResolve((to, from, next) => {
+  // If this isn't an initial page load.
+  console.log("beforeResolve")
+  //if (to.name) {
+    console.log("beforeResolve start")
+    // Start the route progress bar.
+    NProgress.start()
+  //}
+  next()
+})
 
+router.afterEach((to, from) => {
+  // Complete the animation of the route progress bar.
+    console.log("beforeResolve done")
+    setTimeout(() => {
+      NProgress.done()
+    }, 2000);
+  //
+})
 export default router

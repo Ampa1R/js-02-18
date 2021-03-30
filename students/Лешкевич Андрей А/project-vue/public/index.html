@@ -23,6 +23,8 @@
     crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/progressive-image.js/dist/progressive-image.css">
   <script src="https://cdn.jsdelivr.net/npm/progressive-image.js/dist/progressive-image.js"></script>
+  <link href="https://unpkg.com/nprogress@0.2.0/nprogress.css" rel="stylesheet" />
+  <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
   <title>
     <%= htmlWebpackPlugin.options.title %>
   </title>
@@ -36,5 +38,5 @@
   <div id="app"></div>
   <!-- built files will be auto injected -->
 </body>
-
+<script  type="text/javascript">NProgress.start();</script>
 </html>
