@@ -18,9 +18,6 @@ app.get('/api/goods', (request, response) => {
             response.send('Read goods.json error');
             return;
         }
-
-        
-        
         return response.send(data);
     });
 })
