@@ -9,9 +9,16 @@
     >
       <div class="top-block">
         <!--<img v-bind:src="item.img" alt="" class="visible">-->
-        <div class="visible progressive replace" v-bind:data-href="item.img">
+        <!--<div class="visible progressive replace" v-bind:data-href="item.img">
           <img src="@/assets/img/tiny.a1.07.jpg" class="preview" alt="image" />
-        </div>
+        </div>-->
+        <VImg
+          :src="item.img"
+          width="261px"
+          height="280px"
+          placeholder="img/tiny.a1.07.jpg"
+          :classes="{ root: 'visible' }"
+        />
         <div class="hovered">
           <div class="btn-sqr_adcw">
             <a
@@ -40,8 +47,13 @@
 </template>
 
 <script>
+import VImg from "@/components/VImg.vue";
+
 export default {
   name: "ProductList",
+  components: {
+    VImg,
+  },
   methods: {
     float2str(int, fract = 2) {
       let arr = int.toString().split(".");
@@ -64,7 +76,7 @@ export default {
     CartAdd(id, type) {
       return this.$store.dispatch("CartAdd", { id: id, type: type });
     },
-  }
+  },
 };
 </script>
 
@@ -166,26 +178,26 @@ export default {
   }
 }
 .products-grid {
-      &_list {
-        list-style: none;
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        margin: 54px 0 40px 0;
-        padding: 0;
-      }
+  &_list {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 54px 0 40px 0;
+    padding: 0;
+  }
 
-      &_item {
-        @height: 280px;
-        @width: 261px;
-        margin-bottom: 40px;
+  &_item {
+    @height: 280px;
+    @width: 261px;
+    margin-bottom: 40px;
 
-        & .top-block {
-          height: @height;
-          width: @width;
-          background-color: @color_gray_light_13;
-          position: relative;
-& .visible {
+    & .top-block {
+      height: @height;
+      width: @width;
+      background-color: @color_gray_light_13;
+      position: relative;
+      & .visible {
         height: inherit;
         width: inherit;
 
@@ -196,50 +208,54 @@ export default {
           object-fit: contain;
         }
       }
-          & .hovered {
-            position: absolute;
-            display: flex;
-            z-index: -1;
-            top: 0;
-            background-color: rgba(58, 56, 56, 0.83);
-            height: @height;
-            width: @width;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-          }
-        }
-
-        & h3 {
-          .fonts(13px; 1.2; 400; normal);
-          text-transform: uppercase;
-          color: @color_gray_dark_01;
-          margin-left: 15px;
-        }
-
-        & p {
-          .fonts(16px; 1.2; 700; normal);
-          text-transform: uppercase;
-          color: @color_brand_02;
-          margin-left: 15px;
-        }
-
-        &:hover {
-          box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.15);
-          transition: box-shadow 0.5s ease-out;
-
-          & .top-block {
-            & .hovered {
-              z-index: 1;
-              opacity: 1;
-              transition: opacity 0.5s ease-out;
-            }
-          }
-        }
+      & .vts-img__placeholder {
+        height: inherit;
+        width: inherit;
       }
-
-      &_link {
-        text-decoration: none;
+      & .hovered {
+        position: absolute;
+        display: flex;
+        z-index: -1;
+        top: 0;
+        background-color: rgba(58, 56, 56, 0.83);
+        height: @height;
+        width: @width;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
       }
     }
+
+    & h3 {
+      .fonts(13px; 1.2; 400; normal);
+      text-transform: uppercase;
+      color: @color_gray_dark_01;
+      margin-left: 15px;
+    }
+
+    & p {
+      .fonts(16px; 1.2; 700; normal);
+      text-transform: uppercase;
+      color: @color_brand_02;
+      margin-left: 15px;
+    }
+
+    &:hover {
+      box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.15);
+      transition: box-shadow 0.5s ease-out;
+
+      & .top-block {
+        & .hovered {
+          z-index: 1;
+          opacity: 1;
+          transition: opacity 0.5s ease-out;
+        }
+      }
+    }
+  }
+
+  &_link {
+    text-decoration: none;
+  }
+}
 </style>

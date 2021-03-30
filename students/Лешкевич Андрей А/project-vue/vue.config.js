@@ -7,7 +7,11 @@ module.exports = {
         {
           from: 'src/assets/img-dyn/*',
           to: 'img/[name].[ext]'
-        }
+        },
+        {
+          from: 'src/assets/img/tiny.a1.07.jpg',
+          to: 'img/[name].[ext]'
+        },
       ])
     ]
   },

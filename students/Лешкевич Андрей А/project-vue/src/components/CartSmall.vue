@@ -16,7 +16,14 @@
           class="btn-cart__ddc-item"
         >
           <div class="col">
-            <a href="#"><img v-bind:src="item.img" alt="" /></a>
+            <a href="#">
+              <!--<img v-bind:src="item.img" alt="" />-->
+              <VImg
+                :src="item.img"
+                width="72px"
+                height="77px"
+                placeholder="img/tiny.a1.07.jpg"
+            /></a>
           </div>
           <div class="col">
             <p>{{ item.name }}</p>
@@ -77,12 +84,14 @@
             >${{ float2str(CartCount.grand_total) }}</span
           >
         </div>
-        <div class="btn-sqr_bw">          
-          <router-link to="/checkout.html" class="btn-sqr_bw__link"><span class="btn-sqr_bw__text">Checkout</span></router-link>
+        <div class="btn-sqr_bw">
+          <router-link to="/checkout.html" class="btn-sqr_bw__link"
+            ><span class="btn-sqr_bw__text">Checkout</span></router-link
+          >
         </div>
         <div class="btn-sqr_dl">
           <router-link to="/shopping_cart.html" class="btn-sqr_dl__link">
-          <span class="btn-sqr_dl__text">Go to cart</span>
+            <span class="btn-sqr_dl__text">Go to cart</span>
           </router-link>
         </div>
       </div>
@@ -92,8 +101,12 @@
 
 <script>
 import { mapGetters } from "vuex";
+import VImg from "@/components/VImg.vue";
 export default {
   name: "CartSmall",
+  components: {
+    VImg,
+  },
   methods: {
     float2str(int, fract = 2) {
       let arr = int.toString().split(".");
@@ -502,6 +515,11 @@ export default {
               &:hover {
                 .heartbeat();
               }
+            }
+            & .vts-img__img {
+              width: 100%;
+              height: 100%;
+              object-fit: contain;
             }
           }
 

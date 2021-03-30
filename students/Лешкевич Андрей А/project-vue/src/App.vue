@@ -10,11 +10,17 @@
 <script>
 import PageHeader from "@/components/PageHeader.vue";
 import PageFooter from "@/components/PageFooter.vue";
+import { onMounted } from 'vue'
 export default {
   name: "root",
   components: {
     PageHeader,
     PageFooter,
+  },
+  setup() {
+    onMounted(() => {
+      NProgress.done();
+    });
   },
 };
 </script>
