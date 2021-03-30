@@ -10,13 +10,21 @@ const pow = (a, n) => {
 }
 
 const sum = (a, b) => {
+    if(a == null || b == null ||typeof a == "undefined"||typeof b == "undefined") {
+        return 'нет значений';
+    }
+
     if(isNaN(a)||isNaN(b)){
         return 'Один из аргументов не число!';
     }
+    
     return a + b;
 }
 
 const sub = (a, b) => {
+    if(a == null || b == null ||typeof a == "undefined"||typeof b == "undefined") {
+        return 'нет значений';
+    }
     if(isNaN(a)||isNaN(b)){
         return 'Один из аргументов не число!';
     }
@@ -24,19 +32,30 @@ const sub = (a, b) => {
 }
 
 const mult = (a, b) => {
+    if(a == null || b == null ||typeof a == "undefined"||typeof b == "undefined") {
+        return 'нет значений';
+    }
+    if(!!!a||!!!b){
+        return NaN;
+    }
     if(isNaN(a)||isNaN(b)){
         return 'Один из аргументов не число!';
     }
+    
     return a * b;
 }
 
 const div = (a, b) => {
+    if(a == null || b == null ||typeof a == "undefined"||typeof b == "undefined") {
+        return 'нет значений';
+    }
     if(isNaN(a)||isNaN(b)){
         return 'Один из аргументов не число!';
     }
-    if(b === 0){
+    if(b == 0){
         return 'на ноль делить нельзя!';
     }
+    
     return a / b;
 }
 
