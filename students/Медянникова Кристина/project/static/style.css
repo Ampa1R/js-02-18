@@ -1,0 +1,133 @@
+* {
+    box-sizing: border-box;
+  }
+
+.header{
+    justify-content: space-between;
+    display: flex;
+    background-color: #f8f3f4;
+    height: 100px;
+} 
+.logo{
+    margin-left: 50px;
+    margin-top: 20px;
+}
+.basket{
+    width: 300px;
+    box-shadow: 0 3px 6px rgba(0,0,0,.2);
+    background: #fff;
+    top: 150px;
+    position: absolute;
+    padding: 30px 30px;
+    left: 70%;
+}
+.basket-item{
+    margin-bottom: 10px;
+    transition: 0.5s;
+}
+.basket-button{
+    width: 150px;
+    height: 45px;
+    margin-top: 30px;
+    margin-right: 50px;
+    text-decoration: none;
+    font-size: 15px;
+    color: #f16d7f;
+    background-color: white;
+    border: 2px solid #f16d7f;
+}
+.basket-button:hover{
+    transform: scale(1.15);
+    background-color: #f16d7f;
+    color: white;
+}
+.basket-button:focus {
+    outline: none;
+    background: #f16d7f;
+}
+.goods{
+    justify-content: space-between;
+    display: flex;
+    margin-top: 30px;
+}
+
+.item{
+    width: 250px;
+    height: 200px;
+    text-align: center;
+    border: 2px solid #f16d7f;
+    padding: 20px 20px;
+}
+    
+.item:hover{
+    transform: scale(1.15);
+}
+.product-title{
+    font-family: Lato;
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.product-price{
+    font-family: Lato;
+    font-size: 18px;
+    line-height: 1.2;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+.by-btn{
+    text-decoration: none;
+    color: #f16d7f;
+    background-color: white;
+    border: 1px solid #f16d7f;
+    width: 150px;
+    height: 35px;
+    margin-top: 15px;
+}
+.by-btn:hover{
+    transform: scale(1.15);
+    background-color: #f16d7f;
+    color: white;
+}
+.search{
+    width: 300px;
+    height: 30px;
+    margin-top: 15px;
+}
+.removeButton{
+    text-decoration: none;
+    color: #f16d7f;
+    background-color: white;
+    border: 1px solid #f16d7f;
+    margin-top: 25px;
+}
+.removeButton:hover {
+    transform: scale(1.15);
+    background-color: #f16d7f;
+    color: white;
+}
+.goods--empty{
+    font-family: Lato;
+    text-transform: uppercase;
+    margin-top: 80px;
+    position: absolute;
+    left: 45%;
+    font-size: 25px;
+}
+.total_amount{
+    font-family: Lato;
+    font-size: 13px;
+    line-height: 1.2;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+.error{
+    font-family: Lato;
+    font-size: 30px;
+    line-height: 1.2;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: brown;
+    text-align: center;
+}
