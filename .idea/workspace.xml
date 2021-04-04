@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e1714fe2-caa1-4423-a6de-443bf78bc40d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/stats.json" beforeDir="false" afterPath="$PROJECT_DIR$/project/stats.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +43,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/students/Тарабрин Михаил/pw_6" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/students/Тарабрин Михаил/pw_7" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="watcher.settings" />
@@ -52,6 +51,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/students/Тарабрин Михаил/pw_7" />
       <recent name="$PROJECT_DIR$/students/Тарабрин Михаил/pw_6" />
       <recent name="$PROJECT_DIR$/students/Тарабрин Михаил/pw_5" />
       <recent name="C:\Users\Dima\PhpstormProjects\js-02-18\students\Лядский Дмитрий" />
@@ -99,6 +99,8 @@
       <workItem from="1616166687934" duration="442000" />
       <workItem from="1616245150206" duration="26000" />
       <workItem from="1616598590851" duration="2036000" />
+      <workItem from="1616685732015" duration="612000" />
+      <workItem from="1616910113019" duration="43000" />
     </task>
     <task id="LOCAL-00001" summary="1hw">
       <created>1614239138034</created>
