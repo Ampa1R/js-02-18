@@ -45,12 +45,10 @@
     outline: none;
     background: #f16d7f;
 }
-.goods_list{
+.goods{
     justify-content: space-between;
     display: flex;
     margin-top: 30px;
-    margin-left: 25%;
-    margin-right: 25%;
 }
 
 .item{
@@ -109,7 +107,7 @@
     background-color: #f16d7f;
     color: white;
 }
-.there--data{
+.goods--empty{
     font-family: Lato;
     text-transform: uppercase;
     margin-top: 80px;
@@ -117,10 +115,19 @@
     left: 45%;
     font-size: 25px;
 }
-.total--amount{
+.total_amount{
     font-family: Lato;
     font-size: 13px;
     line-height: 1.2;
     font-weight: 400;
     text-transform: uppercase;
+}
+.error{
+    font-family: Lato;
+    font-size: 30px;
+    line-height: 1.2;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: brown;
+    text-align: center;
 }
