@@ -433,9 +433,12 @@ main
 
     img 
         width: 100%
+        display: block
+        text-align: center
 
     &__img 
         position: relative
+        margin-top: 50px
     
     &__title 
         font-size: 13px
@@ -459,9 +462,9 @@ main
         height: 100%
         text-align: center
         background-color: rgba(58, 56, 56, 0.83)
-        display: none
+        display: block
 
-        a 
+        div
             @extend %flex
             position: absolute
             top: 50%
@@ -475,10 +478,11 @@ main
             font-size: 13px
             font-weight: 700
             transition-duration: 0.3s
+            cursor: pointer
+            background: #000
 
             &:hover 
-                background: #000
-            
+                background: #333
 
             span 
                 margin-right: 13px
