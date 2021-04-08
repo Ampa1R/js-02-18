@@ -153,7 +153,7 @@ new Vue({
         el: '#app',
         data: {
             goods: [],
-            searchValue: '',
+            searchValue: 'dfgdfgttttttt',
             searchValueD: '',
             basketGoods: [],
             basketOpen: false,
