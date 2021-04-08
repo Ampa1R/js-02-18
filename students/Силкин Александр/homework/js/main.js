@@ -1,30 +1,25 @@
-
-  /* ДЗ 1
-const products = [
-    {id: 1, title: 'Notebook', price: 2000},
-    {id: 2, title: 'Mouse', price: 20},
-    {id: 3, title: 'Keyboard', price: 34},
-    {id: 4, title: 'Gamepad', price: 56},
-    {id: 5, title: 'Chair', price: 120},
-];
-
-const renderProduct = (title, price) => {
-    return `<div class="product-item">
-                <h3>${title}</h3>
-                <p>${price}</p>
-                <button class="buy-btn">купить</button>
-            </div>`
-};
-
-const renderPage = list => {
-    const productList = list.map(item => renderProduct(item.title, item.price));
-    document.querySelector('.products').innerHTML = productList;
-};
-
-renderPage(products);
-*/
-
-//ДЗ 2
+const API_ROOT = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
+const request = (path = '', method = 'GET', body) => {
+  return new Promise((resolve, reject)=> {  
+  const xhr = new XMLHttpRequest();
+    
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                console.log({ response: xhr.responseText });
+                resolve(JSON.parse(xhr.responseText));
+            } else {
+                console.error(xhr.responseText);
+                reject(xhr.responseText);
+            }
+        }
+    }
+    
+    xhr.open(method, `${API_ROOT}/${path}`);
+    
+    xhr.send(body);
+  });
+}
 class GoodsItem {
     constructor(item) {
       this.item = item;
@@ -32,53 +27,116 @@ class GoodsItem {
   
     render() {
       return `
-        <div class="product-item">
-            <h2>${this.item.title}</h2>
+        <div class="item" data-id="${this.item.id_product}">
+            <h2>${this.item.product_name}</h2>
             <p>${this.item.price}</p>
-            <button class="buy-btn">купить</button>
+            <button name="add-to-basket">купить</button>
         </div>
       `;
     }
   }
   
   class GoodsList {
-    constructor() {
+    constructor(basket) {
+      this.basket = basket;
       this.goods = [];
+      
+      document.querySelector('.goods').addEventListener('click', (event) => {
+      console.log(event);
+        
+        if (event.target.name === 'add-to-basket'){
+          const itemId = event.target.parentElement.dataset.id;
+          const item = this.goods.find((goodsItem) => goodsItem.id_product === parseInt(itemId));
+          console.log({item, itemId});
+          if (typeof item !== 'undefined'){
+            this.addToBasket(item);
+          } else {
+            console.error (`Can't find element with id ${itemId}`)
+          }
+        }
+      });
     }
   
     fetchData() {
-      this.goods = [
-        { title: 'Monitor', price: 50000 },
-        { title: 'Keyboard', price: 1500 },
-        { title: 'Mouse', price: 700 },
-        { title: 'Notebook', price: 35000 },
-      ];
-    }
-    //2. Добавьте для GoodsList метод, определяющий суммарную стоимость
+      return new Promise((resolve, reject) => {
+        request('catalogData.json')
+          .then((goods) => {
+            this.goods = goods;
+            resolve();
+          })
+          .catch((error) => {
+            console.log(`Can't fetch data`, error);
+            reject(error);
+          })
+      });
+
+    
+  }
+  
     getTotalPrice() {
         const sum = this.goods.reduce(
         (accumulator, currentElement) => accumulator + currentElement.price, 0);
         console.log(sum)
-    }
+    };
     render() {
       const goodsString = this.goods.map(element => {
         const item = new GoodsItem(element);
         return item.render();
       });
-      document.querySelector('.products').innerHTML = goodsString.join('');
+      document.querySelector('.goods').innerHTML = goodsString.join('');
     }
-  
-  }
-  const list = new GoodsList();
-  list.fetchData();
-  list.render();
 
-  //1. Добавьте пустые классы для корзины товаров и элемента корзины товаров. Продумайте, какие методы понадобятся для работы с этими сущностями.
-  class Basket {
-    constructor(item) {}
-    
-    fetchData() {} //запрос данных с сервера
+    addToBasket(item) {
+      this.basket.addItem(item);
+    }
+  }
   
+  
+
+  class Basket {
+    constructor() {
+      this.goods = [];
+    }
+    
+    fetchData() {
+        request('getBasket.json')
+          .then((goods) => {
+            this.goods = goods;
+          })
+          .catch((error) => {
+            console.log(`Can't fetch basket data`, error);
+            reject(error);
+          })
+    };
+    addItem(item){
+      request('addToBasket.json')
+        .then((response) =>{
+          if (response.result !== 0){
+          const itemIndex = this.goods.findIndex((goodsItem) => goodsItem.id_product === item.id_product);
+      if (itemIndex > -1){
+        this.goods[itemIndex].quantity +=1;
+      }else{
+          this.goods.push({... item, quantity: 1});
+        }
+        console.log(this.goods);
+      } else {
+        console.error(`Can't add item to basket`, item, this.goods);
+      }
+        })
+      }
+
+    removeItem(id){
+      request('deleteFromBasket.json')
+        .then((response) =>{
+          if (response.result !== 0){
+            this.goods = this.goods.filter ((goodsItem) => goodsItem.id_product !== parseInt(id));
+            console.log(this.goods);
+          } else {
+            console.error(`Can't delete item from basket`, item, this.goods);
+          }
+        });  
+    }
+
     render() {} //отрисовать корзину
   
     calkDelivery() {} //расчитать доставку
@@ -102,3 +160,11 @@ class GoodsItem {
   
     deleteItem() {} //удалить товар из корзины
   }
+  const basket = new Basket();
+
+  const list = new GoodsList(basket);
+  list.fetchData() 
+      .then(()=> {
+      list.render();
+      list.getTotalPrice();
+  });
