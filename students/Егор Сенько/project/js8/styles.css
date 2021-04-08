@@ -1,0 +1,30 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+header {
+    background-color: bisque;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.goods-item {
+    padding: 7px;
+    margin: 0 5px;
+    border-radius: 7px;
+    background-color: #abc;
+    display: inline-block;
+    width: 120px;
+    height: 165px;
+}
+
+.goods-list {
+    padding-top: 5px;
+}
